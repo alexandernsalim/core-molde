@@ -11,31 +11,32 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "account", schema = "public")
 public class Account {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    private Integer id;
 
     @Column(name = "email")
-    protected String email;
+    private String email;
 
     @Column(name = "password")
-    protected String password;
+    private String password;
 
     @Column(name = "first_name")
-    protected String firstName;
+    private String firstName;
 
     @Column(name = "last_name")
-    protected String lastName;
+    private String lastName;
 
     @Column(name = "phone_no")
-    protected String phoneNo;
+    private String phoneNo;
 
-    @Column(name = "role_id")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    protected Role role;
+    @JoinColumn(name = "role_id")
+    private Role roleId;
 
 }

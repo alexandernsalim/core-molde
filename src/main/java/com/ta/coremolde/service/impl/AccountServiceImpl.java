@@ -9,6 +9,7 @@ import com.ta.coremolde.service.AccountService;
 import com.ta.coremolde.service.RoleService;
 import com.ta.coremolde.util.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Override
     public Account getAccount(String email) {
         return accountRepository.findAccountByEmail(email);
@@ -28,13 +32,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountResponse register(AccountRequest accountRequest, String roleName) {
         Role role = roleService.getRole(roleName);
+
         Account account = Account.builder()
                 .email(accountRequest.getEmail())
-                .password(accountRequest.getPassword())
+                .password(encoder.encode(accountRequest.getPassword()))
                 .firstName(accountRequest.getFirstName())
                 .lastName(accountRequest.getLastName())
                 .phoneNo(accountRequest.getPhoneNo())
-                .role(role)
+                .roleId(role)
                 .build();
 
         return ResponseMapper.map(accountRepository.save(account), AccountResponse.class);

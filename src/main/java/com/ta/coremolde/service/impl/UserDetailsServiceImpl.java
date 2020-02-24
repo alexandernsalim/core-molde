@@ -31,21 +31,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Account account = accountService.getAccount(email);
         ShopUser shopUser = shopUserService.getShopUser(email);
 
-        if (account == null || shopUser == null) {
+        if (account == null && shopUser == null) {
             throw new UsernameNotFoundException("User not found");
         }
 
         String password = (account == null) ? shopUser.getPassword() : account.getPassword();
         List<Role> roles = new ArrayList<>();
-        roles.add((account == null) ? shopUser.getRole() : account.getRole());
+        roles.add((account == null) ? shopUser.getRoleId() : account.getRoleId());
 
         return new User(
                 email,
                 password,
-                true,
-                false,
-                false,
-                true,
                 getAuthorities(roles)
         );
     }
