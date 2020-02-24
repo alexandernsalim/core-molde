@@ -28,16 +28,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
-                .and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint())
-                .and()
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig()), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig()))
-                .authorizeRequests()
-                .anyRequest().permitAll();
+            .and()
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint())
+            .and()
+            .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig()), UsernamePasswordAuthenticationFilter.class)
+            .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig()))
+            .authorizeRequests()
+            .anyRequest().permitAll();
     }
 
     @Override

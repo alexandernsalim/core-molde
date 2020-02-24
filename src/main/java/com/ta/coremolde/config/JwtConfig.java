@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Data
 public class JwtConfig {
-    @Value("${security.jwt.uri:/login}")
+    @Value("${security.jwt.uri:/molde/api/v1/login}")
     private String uri;
 
     @Value("${tcc.security.secret:tccoursesecret}")

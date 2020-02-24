@@ -64,7 +64,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                 "\"code\":\"" + 200 + "\"," +
                 "\"message\":\"Success\"," +
                 "\"data\": {" +
-                    "\"token\":\"" + jwtConfig.getPrefix() + token + "\"," +
+                    "\"token\":\"" + jwtConfig.getPrefix() + token + "\"" +
                 "}" +
             "}");
         } catch (IOException e) {
