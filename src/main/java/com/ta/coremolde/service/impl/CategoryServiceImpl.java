@@ -18,6 +18,17 @@ public class CategoryServiceImpl implements CategoryService {
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Override
+    public Category getCategoryById(Integer id) {
+        try {
+            return categoryRepository.findCategoryById(id);
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
     public String addCategory(String name) {
         try {
             categoryRepository.save(Category.builder()

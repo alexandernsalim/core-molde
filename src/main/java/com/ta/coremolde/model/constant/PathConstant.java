@@ -19,6 +19,12 @@ public class PathConstant {
     public static final String UPDATE_CATEGORY = "/{id}/update";
     public static final String DELETE_CATEGORY = "/{id}/delete";
 
+    //Request
+    public static final String REQUEST_MAPPING = PREFIX + "request";
+    public static final String CREATE_REQUEST = "/create";
+    public static final String UPDATE_REQUEST = "/{id}/update";
+    public static final String CANCEL_REQUEST = "/{id}/cancel";
+
     private PathConstant() {
     }
 

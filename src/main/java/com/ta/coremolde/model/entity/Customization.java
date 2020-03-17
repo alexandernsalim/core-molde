@@ -30,14 +30,10 @@ public class Customization {
     private String appFontColor;
 
     @Column(name = "prod_layout")
-    private String productLayout;
+    private String prodLayout;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "request_id", referencedColumnName = "id")
-    private Request request;
 
 }

@@ -26,11 +26,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccount(String email) {
+        //TODO Add error handling
         return accountRepository.findAccountByEmail(email);
     }
 
     @Override
     public AccountResponse register(AccountRequest accountRequest, String roleName) {
+        //TODO Add error handling
         Role role = roleService.getRole(roleName);
 
         Account account = Account.builder()
