@@ -1,7 +1,7 @@
 package com.ta.coremolde.util;
 
-import com.ta.coremolde.model.exception.MoldeException;
-import com.ta.coremolde.model.response.Response;
+import com.ta.coremolde.master.model.exception.MoldeException;
+import com.ta.coremolde.master.model.response.Response;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
