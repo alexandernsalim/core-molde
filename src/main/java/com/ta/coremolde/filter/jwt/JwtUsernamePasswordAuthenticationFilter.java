@@ -2,9 +2,12 @@ package com.ta.coremolde.filter.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ta.coremolde.config.JwtConfig;
+import com.ta.coremolde.model.entity.Account;
 import com.ta.coremolde.model.request.AuthenticationRequest;
+import com.ta.coremolde.service.AccountService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,8 +15,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.FilterChain;
+import javax.management.relation.Role;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,11 +32,24 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     private JwtConfig jwtConfig;
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AccountService accountService;
+
     public JwtUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager, JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
 
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        ServletContext servletContext = req.getServletContext();
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+
+        if (accountService == null) accountService = webApplicationContext.getBean(AccountService.class);
+
+        super.doFilter(req, res, chain);
     }
 
     @Override
@@ -58,15 +77,17 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                 .setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecretKey().getBytes())
                 .compact();
+        String role = accountService.getAccount(authentication.getName()).getRole().getName();
 
         try {
             response.getWriter().write("{" +
-                "\"code\":\"" + 200 + "\"," +
-                "\"message\":\"Success\"," +
-                "\"data\": {" +
-                    "\"token\":\"" + jwtConfig.getPrefix() + token + "\"" +
-                "}" +
-            "}");
+                    "\"code\":\"" + 200 + "\"," +
+                    "\"message\":\"Success\"," +
+                    "\"data\": {" +
+                        "\"token\":\"" + jwtConfig.getPrefix() + token + "\"," +
+                        "\"role\":\"" + role + "\"" +
+                    "}" +
+                "}");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,10 +97,10 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         try {
             response.getWriter().write("{" +
-                "\"code\":\"" + 401 + "\"," +
-                "\"message\":\"Unauthorized\"," +
-                "\"data\": {}" +
-            "}");
+                    "\"code\":\"" + 401 + "\"," +
+                    "\"message\":\"Unauthorized\"," +
+                    "\"data\": {}" +
+                    "}");
         } catch (IOException e) {
             e.printStackTrace();
         }
