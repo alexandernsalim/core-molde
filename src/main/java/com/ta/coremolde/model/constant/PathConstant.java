@@ -13,6 +13,18 @@ public class PathConstant {
     public static final String ROLE_MAPPING = PREFIX + "role";
     public static final String ADD_ROLE = "/add";
 
+    //Category
+    public static final String CATEGORY_MAPPING = PREFIX + "category";
+    public static final String ADD_CATEGORY = "/add";
+    public static final String UPDATE_CATEGORY = "/{id}/update";
+    public static final String DELETE_CATEGORY = "/{id}/delete";
+
+    //Request
+    public static final String REQUEST_MAPPING = PREFIX + "request";
+    public static final String CREATE_REQUEST = "/create";
+    public static final String UPDATE_REQUEST = "/{id}/update";
+    public static final String CANCEL_REQUEST = "/{id}/cancel";
+
     private PathConstant() {
     }
 
