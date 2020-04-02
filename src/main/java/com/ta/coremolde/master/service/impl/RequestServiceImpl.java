@@ -1,18 +1,13 @@
 package com.ta.coremolde.master.service.impl;
 
-import com.ta.coremolde.master.service.CustomizationService;
 import com.ta.coremolde.master.model.constant.ResponseConstant;
-import com.ta.coremolde.master.model.entity.Account;
-import com.ta.coremolde.master.model.entity.Category;
-import com.ta.coremolde.master.model.entity.Customization;
-import com.ta.coremolde.master.model.entity.Request;
+import com.ta.coremolde.master.model.constant.StatusConstant;
+import com.ta.coremolde.master.model.entity.*;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.request.RequestRequest;
 import com.ta.coremolde.master.model.response.ErrorResponse;
 import com.ta.coremolde.master.repository.RequestRepository;
-import com.ta.coremolde.master.service.AccountService;
-import com.ta.coremolde.master.service.CategoryService;
-import com.ta.coremolde.master.service.RequestService;
+import com.ta.coremolde.master.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +28,37 @@ public class RequestServiceImpl implements RequestService {
     @Autowired
     private CustomizationService customizationService;
 
-    private Logger logger = LoggerFactory.getLogger(RequestServiceImpl.class);
+    @Autowired
+    private ShopService shopService;
+
+    private Logger LOG = LoggerFactory.getLogger(RequestServiceImpl.class);
+
+    @Override
+    public String changeRequestStatus(Integer id, StatusConstant condition) {
+        Request request = requestRepository.findRequestById(id);
+
+        if (request.getStatus() == 0) {
+            switch (condition) {
+                case ACCEPT:
+                    request.setStatus(StatusConstant.ACCEPT.getValue());
+                    shopService.createShop(request.getShopName(), request.getAccount(), request.getCustomization());
+                    requestRepository.save(request);
+                    break;
+                case REJECT:
+                    request.setStatus(StatusConstant.REJECT.getValue());
+                    requestRepository.save(request);
+                    break;
+            }
+
+            return ResponseConstant.UPDATE_REQUEST_SUCCESS;
+        }
+
+        return ResponseConstant.UPDATE_REQUEST_FAILED;
+    }
 
     @Override
     public String createRequest(String email, RequestRequest requestRequest) {
+        //TODO Check shopName & appName must be unique
         Category category = categoryService.getCategoryById(requestRequest.getCategory());
 
         try {
@@ -50,6 +72,7 @@ public class RequestServiceImpl implements RequestService {
                     .build();
             customizationService.createCustomization(customization);
             requestRepository.save(Request.builder()
+                    .shopName(requestRequest.getShopName())
                     .appName(requestRequest.getAppName())
                     .customization(customization)
                     .account(account)
@@ -58,11 +81,11 @@ public class RequestServiceImpl implements RequestService {
 
             return ResponseConstant.CREATE_REQUEST_SUCCESS;
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
 
             return ResponseConstant.CREATE_REQUEST_FAILED;
         } catch (NullPointerException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
 
             throw new MoldeException(
                     ErrorResponse.RESOURCE_NOT_FOUND.getCode(),
@@ -73,7 +96,10 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public String updateRequest(String email, Integer id, RequestRequest requestRequest) {
+        //TODO Check shopName & appName must be unique
+
         String appName = requestRequest.getAppName();
+        String shopName = requestRequest.getShopName();
         Category category = categoryService.getCategoryById(requestRequest.getCategory());
 
         try {
@@ -91,17 +117,18 @@ public class RequestServiceImpl implements RequestService {
                     .category(category)
                     .build();
             customizationService.updateCustomization(customizationId, updatedCustomization);
+            request.setShopName(shopName);
             request.setAppName(appName);
             request.setCustomization(updatedCustomization);
             requestRepository.save(request);
 
             return ResponseConstant.UPDATE_REQUEST_SUCCESS;
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
 
             return ResponseConstant.UPDATE_REQUEST_FAILED;
         } catch (NullPointerException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
 
             throw new MoldeException(
                     ErrorResponse.RESOURCE_NOT_FOUND.getCode(),
@@ -123,7 +150,7 @@ public class RequestServiceImpl implements RequestService {
 
             return ResponseConstant.DELETE_REQUEST_SUCCESS;
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
 
             return ResponseConstant.DELETE_REQUEST_FAILED;
         }

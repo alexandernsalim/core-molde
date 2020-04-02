@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
                 .firstName(accountRequest.getFirstName())
                 .lastName(accountRequest.getLastName())
                 .phoneNo(accountRequest.getPhoneNo())
-                .roleId(role)
+                .role(role)
                 .build();
 
         return ResponseMapper.map(accountRepository.save(account), AccountResponse.class);

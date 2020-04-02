@@ -34,7 +34,7 @@ public class ShopUser {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id")
-    private Role roleId;
+    private Role role;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "shop_id")

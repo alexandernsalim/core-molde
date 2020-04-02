@@ -36,10 +36,10 @@ public class MasterDatabaseConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    @Bean(name = "masterJpaVendorAdapter")
-    public JpaVendorAdapter jpaVendorAdapter() {
-        return new HibernateJpaVendorAdapter();
-    }
+//    @Bean(name = "masterJpaVendorAdapter")
+//    public JpaVendorAdapter jpaVendorAdapter() {
+
+//    }
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
@@ -59,6 +59,9 @@ public class MasterDatabaseConfig {
         ds.setPassword("molde_admin");
         ds.setJdbcUrl("jdbc:postgresql://localhost:5432/core_molde?useSSL=false");
         ds.setDriverClassName("org.postgresql.Driver");
+        ds.setPoolName("core_molde-connection-pool");
+        ds.setMaximumPoolSize(10);
+        ds.setMinimumIdle(10);
         LOG.info("masterDataSource set up successfully");
 
         return ds;
@@ -77,13 +80,14 @@ public class MasterDatabaseConfig {
     @Bean(name = "masterEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean masterEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 
         em.setDataSource(masterDataSource());
         em.setPackagesToScan(
                 ShopTenant.class.getPackage().getName(),
                 ShopTenantRepository.class.getPackage().getName());
         em.setPersistenceUnitName("core_molde-persistence-unit");
-        em.setJpaVendorAdapter(jpaVendorAdapter());
+        em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(hibernateProperties());
         LOG.info("masterEntityManagerFactory set up successfully");
 

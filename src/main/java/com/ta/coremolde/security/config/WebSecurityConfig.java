@@ -37,7 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilterAfter(new JwtTokenAuthenticationFilter(jwtConfig()), UsernamePasswordAuthenticationFilter.class)
             .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig()))
             .authorizeRequests()
-            .anyRequest().permitAll();
+            .antMatchers("/molde/api/v1/login").permitAll()
+            .antMatchers("/molde/api/v1/account/client/register").permitAll()
+            .antMatchers("/molde/api/v1/shopuser/register").permitAll()
+            .anyRequest().authenticated();
     }
 
     @Override

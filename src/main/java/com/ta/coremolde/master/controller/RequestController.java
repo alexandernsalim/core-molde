@@ -1,6 +1,7 @@
 package com.ta.coremolde.master.controller;
 
 import com.ta.coremolde.master.model.constant.PathConstant;
+import com.ta.coremolde.master.model.constant.StatusConstant;
 import com.ta.coremolde.master.model.request.RequestRequest;
 import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.master.service.RequestService;
@@ -28,6 +29,16 @@ public class RequestController extends GlobalController {
         String email = httpServletRequest.getUserPrincipal().getName();
 
         return toResponse(requestService.updateRequest(email, id, requestRequest));
+    }
+
+    @PutMapping(PathConstant.ACCEPT_REQUEST)
+    public Response<String> acceptRequest(@PathVariable Integer id) {
+        return toResponse(requestService.changeRequestStatus(id, StatusConstant.ACCEPT));
+    }
+
+    @PutMapping(PathConstant.REJECT_REQUEST)
+    public Response<String> cancelRequest(@PathVariable Integer id) {
+        return toResponse(requestService.changeRequestStatus(id, StatusConstant.REJECT));
     }
 
 }

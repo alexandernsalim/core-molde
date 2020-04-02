@@ -1,8 +1,8 @@
 package com.ta.coremolde.master.model.response;
 
 public enum ErrorResponse {
-    UNAUTHORIZED_RESOURCE_ACCESS(401, "Access to resource not provided"),
-    RESOURCE_NOT_FOUND(403, "Resource not found");
+    UNAUTHORIZED_RESOURCE_ACCESS(403, "Access to resource not provided"),
+    RESOURCE_NOT_FOUND(404, "Resource not found");
 
     private int code;
     private String message;

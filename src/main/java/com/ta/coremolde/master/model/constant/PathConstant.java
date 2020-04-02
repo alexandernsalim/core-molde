@@ -6,8 +6,8 @@ public class PathConstant {
 
     //Account
     public static final String ACCOUNT_MAPPING = PREFIX + "account";
-    public static final String REGISTER_ADMIN = "/create/admin";
-    public static final String REGISTER_CLIENT = "/create/client";
+    public static final String REGISTER_ADMIN = "/admin/register";
+    public static final String REGISTER_CLIENT = "/client/register";
 
     //Role
     public static final String ROLE_MAPPING = PREFIX + "role";
@@ -24,6 +24,12 @@ public class PathConstant {
     public static final String CREATE_REQUEST = "/create";
     public static final String UPDATE_REQUEST = "/{id}/update";
     public static final String CANCEL_REQUEST = "/{id}/cancel";
+    public static final String ACCEPT_REQUEST = "/{id}/accept";
+    public static final String REJECT_REQUEST = "/{id}/reject";
+
+    //Shop User
+    public static final String SHOP_USER_MAPPING = PREFIX + "shopuser";
+    public static final String REGISTER_SHOP_USER = "/register";
 
     private PathConstant() {
     }

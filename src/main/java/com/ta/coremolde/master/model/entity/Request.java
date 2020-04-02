@@ -20,8 +20,14 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "shop_name")
+    private String shopName;
+
     @Column(name = "app_name")
     private String appName;
+
+    @Column(name = "status")
+    private int status;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")

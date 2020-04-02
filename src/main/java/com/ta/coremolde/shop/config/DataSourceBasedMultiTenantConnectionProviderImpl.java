@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.sql.DataSource;
@@ -75,7 +74,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
 
             if (authentication != null) {
                 Object principal = authentication.getPrincipal();
-                email = principal instanceof UserDetails ? ((UserDetails) principal).getUsername() : null;
+                email = principal.toString();
             }
 
             TenantContextHolder.setTenantId(shopService.getShopByAccountEmail(email).getShopTenant().getId().toString());
@@ -84,6 +83,8 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
         if (!tenantId.equals(TenantContextHolder.getTenant())) {
             tenantId = TenantContextHolder.getTenant();
         }
+
+        LOG.info("Current tenant: " + tenantId);
 
         return tenantId;
     }

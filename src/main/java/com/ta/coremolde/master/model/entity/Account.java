@@ -36,7 +36,7 @@ public class Account {
     private String phoneNo;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "role_id")
-    private Role roleId;
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
 
 }

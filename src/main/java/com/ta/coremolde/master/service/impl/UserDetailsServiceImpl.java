@@ -37,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         String password = (account == null) ? shopUser.getPassword() : account.getPassword();
         List<Role> roles = new ArrayList<>();
-        roles.add((account == null) ? shopUser.getRoleId() : account.getRoleId());
+        roles.add((account == null) ? shopUser.getRole() : account.getRole());
 
         return new User(
                 email,

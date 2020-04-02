@@ -29,6 +29,11 @@ public class ResponseConstant {
     public static final String UPDATE_REQUEST_FAILED = "Failed to update request";
     public static final String DELETE_REQUEST_SUCCESS = "Request deleted successfully";
     public static final String DELETE_REQUEST_FAILED = "Failed to delete request";
+    public static final String CHANGE_STATUS_SUCCESS = "Request status updated successfully";
+    public static final String CHANGE_STATUS_FAILED = "Failed to delete request status";
+
+    //Product
+    public static final String DELETE_PRODUCT_SUCCESS = "Product deleted successfully";
 
     private ResponseConstant() {
     }
