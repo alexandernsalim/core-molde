@@ -3,6 +3,7 @@ package com.ta.coremolde.shop.controller;
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.shop.model.response.CartItemResponse;
+import com.ta.coremolde.shop.model.response.CartResponse;
 import com.ta.coremolde.shop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,13 @@ public class CartController extends GlobalController {
 
     @Autowired
     private CartService cartService;
+
+    @GetMapping("/get")
+    public Response<CartResponse> getCart(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(cartService.getCart(email));
+    }
 
     @PostMapping("/{productId}/{qty}/add")
     public Response<CartItemResponse> addItemToCart(@PathVariable Integer productId, @PathVariable int qty, HttpServletRequest httpServletRequest) {
