@@ -1,6 +1,6 @@
 package com.ta.coremolde.shop.config;
 
-import com.ta.coremolde.shop.model.Product;
+import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.repository.ProductRepository;
 import com.ta.coremolde.shop.service.ProductService;
 import org.hibernate.MultiTenancyStrategy;

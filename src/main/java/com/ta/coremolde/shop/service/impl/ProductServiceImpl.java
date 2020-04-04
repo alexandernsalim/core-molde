@@ -3,18 +3,31 @@ package com.ta.coremolde.shop.service.impl;
 import com.ta.coremolde.master.model.constant.ResponseConstant;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.response.ErrorResponse;
-import com.ta.coremolde.shop.model.Product;
+import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.model.request.ProductRequest;
 import com.ta.coremolde.shop.repository.ProductRepository;
 import com.ta.coremolde.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+
+    @Override
+    public List<Product> getAllProduct() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public Product getProduct(Integer id) {
+        return productRepository.findProductById(id);
+    }
 
     @Override
     public Product addProduct(ProductRequest productRequest) {

@@ -1,6 +1,7 @@
 package com.ta.coremolde.master.model.response;
 
 public enum ErrorResponse {
+    STOCK_INSUFFICIENT(400, "Stock insufficient"),
     UNAUTHORIZED_RESOURCE_ACCESS(403, "Access to resource not provided"),
     RESOURCE_NOT_FOUND(404, "Resource not found");
 
