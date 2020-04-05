@@ -1,4 +1,4 @@
-package com.ta.coremolde.shop.model;
+package com.ta.coremolde.shop.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
