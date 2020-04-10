@@ -1,10 +1,14 @@
 HELP.md
+
 target/
+
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
+
 .idea
 *.iws
 *.iml
 *.ipr
-src/main/java/com/ta/coremolde/model/constant/SecretConstant.java
+
+src/main/resources/image

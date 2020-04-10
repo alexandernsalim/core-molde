@@ -3,8 +3,10 @@ package com.ta.coremolde.shop.service.impl;
 import com.ta.coremolde.master.model.entity.ShopUser;
 import com.ta.coremolde.master.service.ShopUserService;
 import com.ta.coremolde.shop.model.entity.Cart;
+import com.ta.coremolde.shop.model.entity.CartItem;
 import com.ta.coremolde.shop.model.response.CartItemResponse;
 import com.ta.coremolde.shop.model.response.CartResponse;
+import com.ta.coremolde.shop.model.response.OrderResponse;
 import com.ta.coremolde.shop.repository.CartRepository;
 import com.ta.coremolde.shop.service.CartItemService;
 import com.ta.coremolde.shop.service.CartService;
@@ -34,7 +36,7 @@ public class CartServiceImpl implements CartService {
 
         return CartResponse.builder()
                 .items(items)
-                .totalItem(items.size())
+                .totalItem(calculateTotalItem(items))
                 .totalPrice(calculateTotalPrice(items))
                 .build();
     }
@@ -63,6 +65,18 @@ public class CartServiceImpl implements CartService {
         return cartItemService.deleteItem(cartItemId);
     }
 
+    @Override
+    public OrderResponse checkout(String email) {
+        ShopUser shopUser = shopUserService.getShopUser(email);
+        Cart cart = cartRepository.findCartByShopUserId(shopUser.getId());
+        List items = ResponseMapper.mapAsList(cartItemService.getAllItems(cart.getId()), CartItemResponse.class);
+        int totalItem = items.size();
+        long totalPrice = calculateTotalPrice(items);
+        float totalWeight = calculateTotalWeight(items);
+
+        return null;
+    }
+
     private Cart createCart(String email) {
         ShopUser shopUser = shopUserService.getShopUser(email);
         Cart cart = Cart.builder()
@@ -72,11 +86,31 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
+    private int calculateTotalItem(List<CartItemResponse> items) {
+        int total = 0;
+
+        for (CartItemResponse item : items) {
+            total += item.getQty();
+        }
+
+        return total;
+    }
+
     private long calculateTotalPrice(List<CartItemResponse> items) {
         long total = 0;
 
         for (CartItemResponse item : items) {
             total += item.getTotalPrice();
+        }
+
+        return total;
+    }
+
+    private float calculateTotalWeight(List<CartItemResponse> items) {
+        float total = 0;
+
+        for (CartItemResponse item : items) {
+            total += item.getTotalWeight();
         }
 
         return total;

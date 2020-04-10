@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cart_item", schema = "public")
-public class CartItem {
+@Table(name = "order_item", schema = "public")
+public class OrderItem {
 
     @Id
     @Column(name = "id")
@@ -34,7 +34,7 @@ public class CartItem {
     private long totalPrice;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private Order order;
 
 }

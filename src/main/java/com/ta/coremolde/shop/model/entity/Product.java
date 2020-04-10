@@ -23,19 +23,22 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
-    @Column
+    @Column(name = "price")
     private long price;
 
-    @Column
+    @Column(name = "weight")
     private float weight;
 
-    @Column
+    @Column(name = "rating")
     private float rating;
 
-    @Column
+    @Column(name = "stock")
     private int stock;
+
+    @Column(name = "image")
+    private String image;
 
 }
