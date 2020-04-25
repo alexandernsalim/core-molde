@@ -32,7 +32,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse register(AccountRequest accountRequest, String roleName) {
-        //TODO Add error handling
+        //TODO Add error handling & email must be unique
         Role role = roleService.getRole(roleName);
 
         Account account = Account.builder()

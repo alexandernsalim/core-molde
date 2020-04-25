@@ -23,9 +23,6 @@ public class Order {
     @Column(name = "transaction_no")
     private String transactionNo;
 
-    @Column(name = "total_item")
-    private int totalItem;
-
     @Column(name = "total_price")
     private long totalPrice;
 

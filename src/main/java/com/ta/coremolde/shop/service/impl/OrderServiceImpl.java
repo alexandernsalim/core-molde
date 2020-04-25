@@ -1,13 +1,20 @@
 package com.ta.coremolde.shop.service.impl;
 
+import com.ta.coremolde.shop.model.constant.OrderStatusConstant;
+import com.ta.coremolde.shop.model.entity.CartItem;
 import com.ta.coremolde.shop.model.entity.Order;
+import com.ta.coremolde.shop.model.entity.Shipment;
+import com.ta.coremolde.shop.model.request.OrderRequest;
 import com.ta.coremolde.shop.repository.OrderRepository;
+import com.ta.coremolde.shop.service.OrderItemService;
 import com.ta.coremolde.shop.service.OrderService;
 import com.ta.coremolde.shop.service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -20,10 +27,33 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ShipmentService shipmentService;
 
-    @Override
-    public Order createOrder() {
+    @Autowired
+    private OrderItemService orderItemService;
 
-        return null;
+    @Override
+    @Transactional("shopTransactionManager")
+    public Order createOrder(Integer shopUserId, List<CartItem> items, OrderRequest orderRequest) {
+        Shipment shipment = shipmentService.createShipment(
+                orderRequest.getCourier(),
+                orderRequest.getAddress(),
+                orderRequest.getOriginId(),
+                orderRequest.getOriginCity(),
+                orderRequest.getDestinationId(),
+                orderRequest.getDestinationCity(),
+                orderRequest.getTotalShipmentPrice());
+        Order order = Order.builder()
+                .transactionNo(generateTransactionNo())
+                .totalPrice(orderRequest.getTotalPrice())
+                .totalPaymentPrice(orderRequest.getTotalPaymentPrice())
+                .shipment(shipment)
+                .shopUserId(shopUserId)
+                .status(OrderStatusConstant.IN_PROGRESS.getStatus())
+                .build();
+
+        orderRepository.save(order);
+        orderItemService.createOrderItem(order, items);
+
+        return order;
     }
 
     private String generateTransactionNo() {

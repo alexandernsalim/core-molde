@@ -4,8 +4,7 @@ import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.response.ErrorResponse;
 import com.ta.coremolde.shop.service.StorageService;
 import org.aspectj.util.FileUtil;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.*;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +12,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,17 +24,19 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class StorageServiceImpl implements StorageService {
 
-    private static final String UPLOAD_PATH = System.getProperty("user.dir") + "/src/main/resources/image/";
+    private static final String UPLOAD_PATH = System.getProperty("user.dir") + "/src/main/upload/images/";
 
     @Override
     public ResponseEntity loadImage(String image) {
-        ClassPathResource imageFile = new ClassPathResource("image/" + image);
+        ResourceLoader resourceLoader = new DefaultResourceLoader();
+        String location = "file:" + UPLOAD_PATH + image;
+        Resource resource = resourceLoader.getResource(location);
 
         try {
             return ResponseEntity
                     .ok()
                     .contentType(MediaType.IMAGE_JPEG)
-                    .body(new InputStreamResource(imageFile.getInputStream()));
+                    .body(new InputStreamResource(resource.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
 

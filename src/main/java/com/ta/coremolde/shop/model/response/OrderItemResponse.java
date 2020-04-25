@@ -1,22 +1,19 @@
 package com.ta.coremolde.shop.model.response;
 
+import com.ta.coremolde.shop.model.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartResponse {
-
-    private Integer cartId;
-    private List<CartItemResponse> items;
-    private int totalItem;
-    private int totalWeight;
+public class OrderItemResponse {
+    private Integer id;
+    private Product product;
+    private int qty;
+    private float totalWeight;
     private long totalPrice;
-
 }

@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -16,6 +18,11 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     private Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
+    @Override
+    public List<Category> getAllCategory() {
+        return categoryRepository.findAll();
+    }
 
     @Override
     public Category getCategoryById(Integer id) {

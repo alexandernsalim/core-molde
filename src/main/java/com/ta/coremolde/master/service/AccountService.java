@@ -8,6 +8,7 @@ import com.ta.coremolde.master.model.response.AccountResponse;
 public interface AccountService {
 
     Account getAccount(String email);
+
     AccountResponse register(AccountRequest accountRequest, String roleName);
 
 }

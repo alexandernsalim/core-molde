@@ -10,6 +10,7 @@ import com.ta.coremolde.shop.service.ProductService;
 import com.ta.coremolde.shop.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -78,13 +79,22 @@ public class ProductServiceImpl implements ProductService {
             storageService.deleteImage(getFileName(product.getImage()));
         } catch (IOException e) {
             throw new MoldeException(
-                ErrorResponse.FAILED_TO_REMOVE_FILE.getCode(),
-                ErrorResponse.FAILED_TO_REMOVE_FILE.getMessage()
+                    ErrorResponse.FAILED_TO_REMOVE_FILE.getCode(),
+                    ErrorResponse.FAILED_TO_REMOVE_FILE.getMessage()
             );
         }
 
         productRepository.delete(product);
         return ResponseConstant.DELETE_PRODUCT_SUCCESS;
+    }
+
+    @Override
+    @Transactional("shopTransactionManager")
+    public Product decreaseStock(Product product, int qty) {
+        int updatedStock = product.getStock() - qty;
+        product.setStock(updatedStock);
+
+        return productRepository.save(product);
     }
 
     private void checkProductExistance(Integer id) {

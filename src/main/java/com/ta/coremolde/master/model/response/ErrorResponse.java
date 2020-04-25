@@ -4,6 +4,7 @@ public enum ErrorResponse {
     STOCK_INSUFFICIENT(400, "Stock insufficient"),
     FILE_EMPTY(400, "Image cannot be empty"),
     FILE_NAME_FAULT(400, "Cannot store file with relative path outside current directory"),
+    ADDRESS_LIST_EMPTY(400, "Address list is empty"),
     UNAUTHORIZED_RESOURCE_ACCESS(403, "Access to resource not provided"),
     RESOURCE_NOT_FOUND(404, "Resource not found"),
     FAILED_TO_REMOVE_FILE(500, "Failed to remove file"),

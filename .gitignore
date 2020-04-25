@@ -11,4 +11,4 @@ target/
 *.iml
 *.ipr
 
-src/main/resources/image
+src/main/upload/images

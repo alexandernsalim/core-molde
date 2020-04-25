@@ -1,23 +1,22 @@
-package com.ta.coremolde.shop.model.response;
+package com.ta.coremolde.shop.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse {
-    private Integer id;
-    private String transactionNo;
-    private List<OrderItemResponse> items;
-    private int totalItem;
+public class OrderRequest {
     private long totalPrice;
     private long totalShipmentPrice;
     private long totalPaymentPrice;
-    private String status;
+    private String courier;
+    private String address;
+    private int originId;
+    private String originCity;
+    private int destinationId;
+    private String destinationCity;
 }

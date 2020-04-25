@@ -1,10 +1,13 @@
 package com.ta.coremolde.master.controller;
 
 import com.ta.coremolde.master.model.constant.PathConstant;
+import com.ta.coremolde.master.model.entity.Category;
 import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.master.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(PathConstant.CATEGORY_MAPPING)
@@ -12,6 +15,11 @@ public class CategoryController extends GlobalController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping("/get")
+    public Response<List<Category>> getAllCategory() {
+        return toResponse(categoryService.getAllCategory());
+    }
 
     @PostMapping(PathConstant.ADD_CATEGORY)
     public Response<String> addCategory(@RequestParam String name) {
