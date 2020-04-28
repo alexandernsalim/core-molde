@@ -56,6 +56,20 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    @Override
+    public Order acceptOrder() {
+        //TODO Change order status
+
+        return null;
+    }
+
+    @Override
+    public Order rejectOrder() {
+        //TODO Return all order item stock to product current stock
+
+        return null;
+    }
+
     private String generateTransactionNo() {
         long timestamp = new Date().getTime();
 
