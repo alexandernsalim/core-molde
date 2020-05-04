@@ -13,6 +13,7 @@ import com.ta.coremolde.util.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,10 +29,17 @@ public class BankAccountServiceImpl implements BankAccountService {
     private ShopService shopService;
 
     @Override
-    public List<BankAccountResponse> getShopBankAccount(String email) {
-        Shop shop = shopService.getShopByAccountEmail(email);
+    public List<BankAccountResponse> getShopBankAccount(String email, Integer shopId) {
+        List<BankAccount> bankAccounts;
 
-        return ResponseMapper.mapAsList(bankAccountRepository.findAllByShopEquals(shop), BankAccountResponse.class);
+        if (shopId != null) {
+            bankAccounts = bankAccountRepository.findAllByShop_IdEquals(shopId);
+        } else {
+            Shop shop = shopService.getShopByAccountEmail(email);
+            bankAccounts = bankAccountRepository.findAllByShopEquals(shop);
+        }
+
+        return ResponseMapper.mapAsList(bankAccounts, BankAccountResponse.class);
     }
 
     @Override

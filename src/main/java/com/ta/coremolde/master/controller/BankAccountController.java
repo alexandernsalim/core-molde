@@ -19,10 +19,10 @@ public class BankAccountController extends GlobalController {
     private BankAccountService bankAccountService;
 
     @GetMapping("/get")
-    public Response<List<BankAccountResponse>> getShopBankAccount(HttpServletRequest httpServletRequest) {
+    public Response<List<BankAccountResponse>> getShopBankAccount(@RequestParam(required = false) Integer shopId, HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();
 
-        return toResponse(bankAccountService.getShopBankAccount(email));
+        return toResponse(bankAccountService.getShopBankAccount(email, shopId));
     }
 
     @GetMapping("{bankAccountId}/get")

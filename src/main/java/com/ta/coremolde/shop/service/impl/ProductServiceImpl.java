@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Integer productId, ProductRequest productRequest, MultipartFile image) {
-        checkProductExistance(productId);
+        checkProductExistence(productId);
 
         Product product = productRepository.findProductById(productId);
         product.setName(productRequest.getName());
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String deleteProduct(Integer productId) {
-        checkProductExistance(productId);
+        checkProductExistence(productId);
         Product product = productRepository.findProductById(productId);
 
         try {
@@ -90,14 +90,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional("shopTransactionManager")
-    public Product decreaseStock(Product product, int qty) {
+    public Product updateStock(Product product, int qty) {
         int updatedStock = product.getStock() - qty;
         product.setStock(updatedStock);
 
         return productRepository.save(product);
     }
 
-    private void checkProductExistance(Integer id) {
+    private void checkProductExistence(Integer id) {
         if (!productRepository.existsById(id)) {
             throw new MoldeException(
                     ErrorResponse.RESOURCE_NOT_FOUND.getCode(),

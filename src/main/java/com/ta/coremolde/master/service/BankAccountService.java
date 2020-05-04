@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BankAccountService {
 
-    List<BankAccountResponse> getShopBankAccount(String email);
+    List<BankAccountResponse> getShopBankAccount(String email, Integer shopId);
 
     BankAccountResponse getBankAccount(Integer bankAccountId);
 

@@ -17,8 +17,13 @@ public class StorageController {
     private StorageService storageService;
 
     @GetMapping("/product/{image}")
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable String image) {
+    public ResponseEntity<InputStreamResource> getProductImage(@PathVariable String image) {
         return storageService.loadImage(image);
+    }
+
+    @GetMapping("payment/{image}")
+    public ResponseEntity<InputStreamResource> getPaymentImage(@PathVariable String image) {
+        return storageService.loadPaymentImage(image);
     }
 
 }

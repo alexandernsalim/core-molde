@@ -18,6 +18,8 @@ import com.ta.coremolde.util.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -92,12 +94,13 @@ public class CartServiceImpl implements CartService {
         return OrderResponse.builder()
                 .id(order.getId())
                 .transactionNo(order.getTransactionNo())
+                .transactionDate(order.getTransactionDate())
                 .items(ResponseMapper.mapAsList(items, OrderItemResponse.class))
                 .totalItem(calculateTotalItem(ResponseMapper.mapAsList(items, CartItemResponse.class)))
                 .totalPrice(order.getTotalPrice())
                 .totalPaymentPrice(order.getTotalPaymentPrice())
-                .totalShipmentPrice(order.getShipment().getTotalShipmentPrice())
                 .status(order.getStatus())
+                .shipment(order.getShipment())
                 .build();
     }
 

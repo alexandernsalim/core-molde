@@ -4,9 +4,11 @@ import com.ta.coremolde.shop.model.entity.CartItem;
 import com.ta.coremolde.shop.model.entity.Order;
 import com.ta.coremolde.shop.model.entity.OrderItem;
 import com.ta.coremolde.shop.model.entity.Product;
+import com.ta.coremolde.shop.model.response.OrderItemResponse;
 import com.ta.coremolde.shop.repository.OrderItemRepository;
 import com.ta.coremolde.shop.service.OrderItemService;
 import com.ta.coremolde.shop.service.ProductService;
+import com.ta.coremolde.util.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +26,17 @@ public class OrderItemServiceImpl implements OrderItemService {
     private ProductService productService;
 
     @Override
+    public List<OrderItemResponse> getOrderItems(Integer orderId) {
+        return ResponseMapper.mapAsList(orderItemRepository.getAllByOrder_Id(orderId), OrderItemResponse.class);
+    }
+
+    @Override
     @Transactional("shopTransactionManager")
     public void createOrderItem(Order order, List<CartItem> items) {
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem item : items) {
             int qty = item.getQty();
-            Product product = productService.decreaseStock(item.getProduct(), qty);
+            Product product = productService.updateStock(item.getProduct(), qty);
 
             orderItems.add(OrderItem.builder()
                     .product(product)
@@ -41,6 +48,12 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         orderItemRepository.saveAll(orderItems);
+    }
+
+    @Override
+    @Transactional("shopTransactionManager")
+    public void removeOrderItem(Integer orderItemId) {
+        orderItemRepository.deleteById(orderItemId);
     }
 
 }

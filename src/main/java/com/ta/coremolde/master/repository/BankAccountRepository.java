@@ -9,5 +9,6 @@ import java.util.List;
 public interface BankAccountRepository extends JpaRepository<BankAccount, Integer> {
 
     List<BankAccount> findAllByShopEquals(Shop shop);
+    List<BankAccount> findAllByShop_IdEquals(Integer shopId);
 
 }

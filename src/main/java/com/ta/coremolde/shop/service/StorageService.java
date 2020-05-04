@@ -12,4 +12,9 @@ public interface StorageService {
     void updateImage(String filename, MultipartFile image);
     void deleteImage(String filename) throws IOException;
 
+    ResponseEntity loadPaymentImage(String image);
+    void savePaymentImage(Integer shopId, String filename, MultipartFile image);
+    void updatePaymentImage(String filename, MultipartFile image);
+    void deletePaymentImage(String filename) throws IOException;
+
 }

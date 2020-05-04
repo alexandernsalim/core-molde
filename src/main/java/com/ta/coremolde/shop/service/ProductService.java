@@ -18,6 +18,6 @@ public interface ProductService {
 
     String deleteProduct(Integer productId);
 
-    Product decreaseStock(Product product, int qty);
+    Product updateStock(Product product, int qty);
 
 }

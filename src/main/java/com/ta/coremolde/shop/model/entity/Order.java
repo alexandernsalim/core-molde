@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Data
 @Builder
@@ -23,6 +24,9 @@ public class Order {
     @Column(name = "transaction_no")
     private String transactionNo;
 
+    @Column(name = "transaction_date")
+    private Timestamp transactionDate;
+
     @Column(name = "total_price")
     private long totalPrice;
 
@@ -38,5 +42,8 @@ public class Order {
 
     @Column(name = "shop_user_id")
     private Integer shopUserId;
+
+    @Column(name = "payment_image")
+    private String paymentImage;
 
 }
