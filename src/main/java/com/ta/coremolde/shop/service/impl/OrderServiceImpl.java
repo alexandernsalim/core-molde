@@ -47,6 +47,11 @@ public class OrderServiceImpl implements OrderService {
     private StorageService storageService;
 
     @Override
+    public List<Order> getShopOrder() {
+        return orderRepository.findAllByOrderByIdDesc();
+    }
+
+    @Override
     public List<OrderResponse> getUserOrder(String email) {
         List<OrderResponse> resultOrders = new ArrayList<>();
         ShopUser shopUser = shopUserService.getShopUser(email);
@@ -89,7 +94,9 @@ public class OrderServiceImpl implements OrderService {
                 orderRequest.getOriginCity(),
                 orderRequest.getDestinationId(),
                 orderRequest.getDestinationCity(),
-                orderRequest.getTotalShipmentPrice());
+                orderRequest.getTotalShipmentPrice(),
+                orderRequest.getRecipient(),
+                orderRequest.getRecipientPhone());
         Order order = Order.builder()
                 .transactionNo(transactionNo)
                 .transactionDate(new Timestamp(timestamp))
@@ -97,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalPaymentPrice(orderRequest.getTotalPaymentPrice())
                 .shipment(shipment)
                 .shopUserId(shopUserId)
-                .status(OrderStatusConstant.IN_PROGRESS.getStatus())
+                .status(OrderStatusConstant.WAITING_FOR_PAYMENT.getStatus())
                 .build();
 
         orderRepository.save(order);
@@ -108,7 +115,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order acceptOrder(Integer orderId) {
-        Order order = orderRepository.getOne(orderId);
+        Order order = orderRepository.findOrderByIdEquals(orderId);
         order.setStatus(OrderStatusConstant.PAYMENT_ACCEPTED.getStatus());
 
         return orderRepository.save(order);
@@ -117,7 +124,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional("shopTransactionManager")
     public Order cancelOrder(Integer orderId) {
-        Order order = orderRepository.getOne(orderId);
+        Order order = orderRepository.findOrderByIdEquals(orderId);
         List<OrderItemResponse> orderItems = orderItemService.getOrderItems(orderId);
         for (OrderItemResponse orderItem : orderItems) {
             Product product = orderItem.getProduct();
@@ -129,13 +136,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String uploadPaymentImage(Integer shopId, Integer orderId, MultipartFile paymentImage) {
-        Order order = orderRepository.getOne(orderId);
+    public Order uploadPaymentImage(Integer shopId, Integer orderId, MultipartFile paymentImage) {
+        Order order = orderRepository.findOrderByIdEquals(orderId);
         String filename = order.getTransactionNo();
 
         storageService.savePaymentImage(shopId, filename, paymentImage);
+        order.setStatus(OrderStatusConstant.WAITING_FOR_PAYMENT_CONFIRMATION.getStatus());
+        order.setPaymentImage("/molde/api/v1/storage/payment/shop-" + shopId + "-payment-" + filename);
 
-        return "Bukti pembayaran berhasil diunggah.";
+        return orderRepository.save(order);
     }
 
     private int calculateTotalItem(List<OrderItemResponse> items) {

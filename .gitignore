@@ -12,3 +12,4 @@ target/
 *.ipr
 
 src/main/upload/images/
+src/main/upload/payments/

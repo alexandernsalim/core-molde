@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
+    Order findOrderByIdEquals(Integer orderId);
+
     List<Order> findAllByShopUserIdEqualsOrderByIdDesc(Integer shopUserId);
+
+    List<Order> findAllByOrderByIdDesc();
 
 }

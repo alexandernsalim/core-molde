@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface OrderService {
 
+    List<Order> getShopOrder();
+
     List<OrderResponse> getUserOrder(String email);
 
     OrderResponse getOrderDetail(Integer orderId);
@@ -20,6 +22,6 @@ public interface OrderService {
 
     Order cancelOrder(Integer orderId);
 
-    String uploadPaymentImage(Integer shopId, Integer orderId, MultipartFile paymentImage);
+    Order uploadPaymentImage(Integer shopId, Integer orderId, MultipartFile paymentImage);
 
 }

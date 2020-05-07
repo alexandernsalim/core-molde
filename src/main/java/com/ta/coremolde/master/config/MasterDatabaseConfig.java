@@ -45,7 +45,7 @@ public class MasterDatabaseConfig {
         Properties properties = new Properties();
         properties.put(org.hibernate.cfg.Environment.DIALECT,
                 "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put(org.hibernate.cfg.Environment.SHOW_SQL, true);
+        properties.put(org.hibernate.cfg.Environment.SHOW_SQL, false);
         properties.put(org.hibernate.cfg.Environment.FORMAT_SQL, true);
         properties.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "update");
 

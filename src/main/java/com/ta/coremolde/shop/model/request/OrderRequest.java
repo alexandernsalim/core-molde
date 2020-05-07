@@ -19,4 +19,6 @@ public class OrderRequest {
     private String originCity;
     private int destinationId;
     private String destinationCity;
+    private String recipient;
+    private String recipientPhone;
 }

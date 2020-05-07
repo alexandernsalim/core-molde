@@ -19,6 +19,11 @@ public class OrderController extends GlobalController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("/shop/get")
+    public Response<List<Order>> getShopOrder() {
+        return toResponse(orderService.getShopOrder());
+    }
+
     @GetMapping("/user/get")
     public Response<List<OrderResponse>> getUserOrder(HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();

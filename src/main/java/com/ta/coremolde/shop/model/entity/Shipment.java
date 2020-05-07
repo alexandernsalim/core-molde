@@ -44,4 +44,10 @@ public class Shipment {
     @Column(name = "total_shipment_price")
     private long totalShipmentPrice;
 
+    @Column(name = "recipient")
+    private String recipient;
+
+    @Column(name = "recipient_phone")
+    private String recipientPhone;
+
 }
