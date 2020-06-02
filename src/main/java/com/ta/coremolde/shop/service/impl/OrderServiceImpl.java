@@ -78,7 +78,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderDetail(Integer orderId) {
-        return ResponseMapper.map(orderRepository.getOne(orderId), OrderResponse.class);
+        Order order = orderRepository.findOrderByIdEquals(orderId);
+        List<OrderItemResponse> items = orderItemService.getOrderItems(order.getId());
+
+        return OrderResponse.builder()
+                .id(order.getId())
+                .transactionNo(order.getTransactionNo())
+                .transactionDate(order.getTransactionDate())
+                .items(items)
+                .totalItem(calculateTotalItem(items))
+                .totalPrice(order.getTotalPrice())
+                .totalPaymentPrice(order.getTotalPaymentPrice())
+                .status(order.getStatus())
+                .shipment(order.getShipment())
+                .build();
     }
 
     @Override
@@ -122,6 +135,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order rejectOrder(Integer orderId) {
+        Order order = orderRepository.findOrderByIdEquals(orderId);
+        order.setStatus(OrderStatusConstant.PAYMENT_REJECTED.getStatus());
+
+        return orderRepository.save(order);
+    }
+
+    @Override
     @Transactional("shopTransactionManager")
     public Order cancelOrder(Integer orderId) {
         Order order = orderRepository.findOrderByIdEquals(orderId);
@@ -143,6 +164,23 @@ public class OrderServiceImpl implements OrderService {
         storageService.savePaymentImage(shopId, filename, paymentImage);
         order.setStatus(OrderStatusConstant.WAITING_FOR_PAYMENT_CONFIRMATION.getStatus());
         order.setPaymentImage("/molde/api/v1/storage/payment/shop-" + shopId + "-payment-" + filename);
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order setAirwayBill(Integer orderId, String airwayBill) {
+        Order order = orderRepository.findOrderByIdEquals(orderId);
+        order.setShipment(shipmentService.updateShipment(order.getShipment().getId(), airwayBill));
+        order.setStatus(OrderStatusConstant.SHIPMENT_IN_PROGRESS.getStatus());
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order completeOrder(Integer orderId) {
+        Order order = orderRepository.findOrderByIdEquals(orderId);
+        order.setStatus(OrderStatusConstant.ORDER_COMPLETE.getStatus());
 
         return orderRepository.save(order);
     }

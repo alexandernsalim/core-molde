@@ -27,7 +27,7 @@ public class Review {
     private String description;
 
     @Column(name = "rating")
-    private String rating;
+    private float rating;
 
     @Column(name = "shop_user_id")
     private Integer shopUserId;

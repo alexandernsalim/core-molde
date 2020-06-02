@@ -1,12 +1,17 @@
 package com.ta.coremolde.shop.service.impl;
 
 import com.ta.coremolde.master.model.constant.ResponseConstant;
+import com.ta.coremolde.master.model.entity.ShopUser;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.response.ErrorResponse;
+import com.ta.coremolde.master.service.ShopUserService;
 import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.model.request.ProductRequest;
+import com.ta.coremolde.shop.model.request.ReviewRequest;
+import com.ta.coremolde.shop.model.response.ReviewResponse;
 import com.ta.coremolde.shop.repository.ProductRepository;
 import com.ta.coremolde.shop.service.ProductService;
+import com.ta.coremolde.shop.service.ReviewService;
 import com.ta.coremolde.shop.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +29,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ShopUserService shopUserService;
 
     @Override
     public List<Product> getAllProduct() {
@@ -95,6 +106,11 @@ public class ProductServiceImpl implements ProductService {
         product.setStock(updatedStock);
 
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<ReviewResponse> getProductReviews(Integer productId) {
+        return reviewService.getProductReviews(productId);
     }
 
     private void checkProductExistence(Integer id) {

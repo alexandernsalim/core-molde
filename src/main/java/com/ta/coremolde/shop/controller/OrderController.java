@@ -3,6 +3,7 @@ package com.ta.coremolde.shop.controller;
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.shop.model.entity.Order;
+import com.ta.coremolde.shop.model.request.AirwayBillRequest;
 import com.ta.coremolde.shop.model.response.OrderResponse;
 import com.ta.coremolde.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class OrderController extends GlobalController {
         return toResponse(orderService.acceptOrder(orderId));
     }
 
+    @PostMapping("/{orderId}/reject")
+    public Response<Order> rejectOrder(@PathVariable Integer orderId) {
+        return toResponse(orderService.rejectOrder(orderId));
+    }
+
     @PostMapping("/{orderId}/cancel")
     public Response<Order> cancelOrder(@PathVariable Integer orderId) {
         return toResponse(orderService.cancelOrder(orderId));
@@ -49,6 +55,16 @@ public class OrderController extends GlobalController {
     @PostMapping("/{orderId}/upload-payment")
     public Response<String> uploadPaymentImage(@RequestParam Integer shopId, @PathVariable Integer orderId, @RequestParam MultipartFile paymentImage) {
         return toResponse(orderService.uploadPaymentImage(shopId, orderId, paymentImage));
+    }
+
+    @PostMapping("/{orderId}/airway-bill")
+    public Response<Order> setAirwayBill(@PathVariable Integer orderId, @ModelAttribute AirwayBillRequest request) {
+        return toResponse(orderService.setAirwayBill(orderId, request.getAirwayBill()));
+    }
+
+    @PostMapping("/{orderId}/complete")
+    public Response<Order> completeOrder(@PathVariable Integer orderId) {
+        return toResponse(orderService.completeOrder(orderId));
     }
 
 }

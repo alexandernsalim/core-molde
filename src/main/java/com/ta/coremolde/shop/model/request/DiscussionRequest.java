@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReviewRequest {
-    private Integer productId;
-    private String title;
-    private String description;
-    private String rating;
+public class DiscussionRequest {
+    private String detail;
 }

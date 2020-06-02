@@ -37,4 +37,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
+    @Column(name = "reviewed")
+    private int reviewed;
+
 }

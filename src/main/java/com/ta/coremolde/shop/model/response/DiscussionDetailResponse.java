@@ -1,20 +1,19 @@
 package com.ta.coremolde.shop.model.response;
 
-import com.ta.coremolde.shop.model.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemResponse {
+public class DiscussionDetailResponse {
     private Integer id;
-    private Product product;
-    private int qty;
-    private float totalWeight;
-    private long totalPrice;
-    private int reviewed;
+    private String question;
+    private String questionOwner;
+    private List<DiscussionResponseServiceResponse> responses;
 }

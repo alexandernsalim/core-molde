@@ -14,6 +14,8 @@ public interface OrderItemService {
 
     void createOrderItem(Order order, List<CartItem> items);
 
+    void updateReviewedStatus(Integer orderItemId);
+
     void removeOrderItem(Integer orderItemId);
 
 }

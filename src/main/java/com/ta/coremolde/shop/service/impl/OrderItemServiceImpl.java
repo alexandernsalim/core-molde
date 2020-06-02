@@ -44,10 +44,19 @@ public class OrderItemServiceImpl implements OrderItemService {
                     .totalWeight(item.getTotalWeight())
                     .totalPrice(item.getTotalPrice())
                     .order(order)
+                    .reviewed(0)
                     .build());
         }
 
         orderItemRepository.saveAll(orderItems);
+    }
+
+    @Override
+    @Transactional("shopTransactionManager")
+    public void updateReviewedStatus(Integer orderItemId) {
+        OrderItem orderItem = orderItemRepository.findOrderItemById(orderItemId);
+        orderItem.setReviewed(1);
+        orderItemRepository.save(orderItem);
     }
 
     @Override

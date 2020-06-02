@@ -20,8 +20,14 @@ public interface OrderService {
 
     Order acceptOrder(Integer orderId);
 
+    Order rejectOrder(Integer orderId);
+
     Order cancelOrder(Integer orderId);
 
     Order uploadPaymentImage(Integer shopId, Integer orderId, MultipartFile paymentImage);
+
+    Order setAirwayBill(Integer orderId, String airwayBill);
+
+    Order completeOrder(Integer orderId);
 
 }

@@ -6,6 +6,10 @@ import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.master.service.ShopService;
 import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.model.request.ProductRequest;
+import com.ta.coremolde.shop.model.request.ReviewRequest;
+import com.ta.coremolde.shop.model.response.DiscussionServiceResponse;
+import com.ta.coremolde.shop.model.response.ReviewResponse;
+import com.ta.coremolde.shop.service.DiscussionService;
 import com.ta.coremolde.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,9 @@ public class ProductController extends GlobalController {
     private ProductService productService;
 
     @Autowired
+    private DiscussionService discussionService;
+
+    @Autowired
     private ShopService shopService;
 
     @GetMapping("/all")
@@ -32,6 +39,16 @@ public class ProductController extends GlobalController {
     @GetMapping("/{productId}/detail")
     public Response<Product> getProduct(@PathVariable Integer productId) {
         return toResponse(productService.getProduct(productId));
+    }
+
+    @GetMapping("/{productId}/discussions")
+    public Response<List<DiscussionServiceResponse>> getProductDiscussions(@PathVariable Integer productId) {
+        return toResponse(discussionService.getAllDiscussions(productId));
+    }
+
+    @GetMapping("/{productId}/reviews")
+    public Response<List<ReviewResponse>> getProductReviews(@PathVariable Integer productId) {
+        return toResponse(productService.getProductReviews(productId));
     }
 
     @PostMapping("/add")

@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemResponse {
-    private Integer id;
+public class DiscussionServiceResponse {
+    private int id;
+    private String detail;
+    private String questionMaker;
+    private DiscussionResponseServiceResponse lastReply;
     private Product product;
-    private int qty;
-    private float totalWeight;
-    private long totalPrice;
-    private int reviewed;
 }
