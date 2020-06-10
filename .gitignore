@@ -7,4 +7,5 @@ target/
 *.iws
 *.iml
 *.ipr
-src/main/java/com/ta/coremolde/model/constant/SecretConstant.java
+src/main/upload
+
