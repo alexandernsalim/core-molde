@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface DiscussionService {
 
-    List<DiscussionServiceResponse> getAllDiscussions(Integer productId);
+    List<DiscussionServiceResponse> getAllDiscussions();
+
+    List<DiscussionServiceResponse> getProductDiscussions(Integer productId);
 
     List<DiscussionServiceResponse> getUserDiscussions(String email);
 

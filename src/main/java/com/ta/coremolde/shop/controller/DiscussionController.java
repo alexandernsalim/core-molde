@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping(PathConstant.PREFIX + "discussions")
@@ -19,6 +20,11 @@ public class DiscussionController extends GlobalController {
 
     @Autowired
     private DiscussionService discussionService;
+
+    @GetMapping
+    public Response<List<DiscussionServiceResponse>> getDiscussions() {
+        return toResponse(discussionService.getAllDiscussions());
+    }
 
     @GetMapping("/{discussionId}")
     public Response<DiscussionDetailResponse> getDiscussion(@PathVariable Integer discussionId) {

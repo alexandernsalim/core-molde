@@ -34,7 +34,28 @@ public class DiscussionServiceImpl implements DiscussionService {
     private ShopUserService shopUserService;
 
     @Override
-    public List<DiscussionServiceResponse> getAllDiscussions(Integer productId) {
+    public List<DiscussionServiceResponse> getAllDiscussions() {
+        List<Discussion> discussions = discussionRepository.findAll();
+        List<DiscussionServiceResponse> discussionsResponse = new ArrayList<>();
+
+        for (Discussion discussion : discussions) {
+            String username = shopUserService.getShopUserById(discussion.getShopUserId()).getFirstName();
+            DiscussionResponseServiceResponse lastReply = discussionResponseService.getLastReply(discussion.getId());
+
+            discussionsResponse.add(DiscussionServiceResponse.builder()
+                    .id(discussion.getId())
+                    .detail(discussion.getDetail())
+                    .questionMaker(username)
+                    .lastReply(lastReply)
+                    .product(discussion.getProduct())
+                    .build());
+        }
+
+        return discussionsResponse;
+    }
+
+    @Override
+    public List<DiscussionServiceResponse> getProductDiscussions(Integer productId) {
         List<Discussion> discussions = discussionRepository.findAllByProduct_IdEquals(productId);
         List<DiscussionServiceResponse> discussionsResponse = new ArrayList<>();
 

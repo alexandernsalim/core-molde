@@ -6,7 +6,6 @@ import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.master.service.ShopService;
 import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.model.request.ProductRequest;
-import com.ta.coremolde.shop.model.request.ReviewRequest;
 import com.ta.coremolde.shop.model.response.DiscussionServiceResponse;
 import com.ta.coremolde.shop.model.response.ReviewResponse;
 import com.ta.coremolde.shop.service.DiscussionService;
@@ -43,7 +42,7 @@ public class ProductController extends GlobalController {
 
     @GetMapping("/{productId}/discussions")
     public Response<List<DiscussionServiceResponse>> getProductDiscussions(@PathVariable Integer productId) {
-        return toResponse(discussionService.getAllDiscussions(productId));
+        return toResponse(discussionService.getProductDiscussions(productId));
     }
 
     @GetMapping("/{productId}/reviews")
