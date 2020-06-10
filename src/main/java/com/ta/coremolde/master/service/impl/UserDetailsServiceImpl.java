@@ -19,6 +19,7 @@ import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+    //TODO Make sure that shop user really from the right shop
 
     @Autowired
     private AccountService accountService;

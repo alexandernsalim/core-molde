@@ -1,8 +1,12 @@
 package com.ta.coremolde.shop.config;
 
+import com.ta.coremolde.master.model.entity.Account;
 import com.ta.coremolde.master.model.entity.ShopTenant;
+import com.ta.coremolde.master.model.entity.ShopUser;
 import com.ta.coremolde.master.repository.ShopTenantRepository;
+import com.ta.coremolde.master.service.AccountService;
 import com.ta.coremolde.master.service.ShopService;
+import com.ta.coremolde.master.service.ShopUserService;
 import com.ta.coremolde.util.DataSourceUtil;
 import com.ta.coremolde.util.TenantContextHolder;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
@@ -26,6 +30,12 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private ShopUserService shopUserService;
 
     private Map<String, DataSource> dataSourceMap = new TreeMap<>();
 
@@ -67,7 +77,7 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
     }
 
     private String initializeTenantId(String tenantId) {
-        if (TenantContextHolder.getTenant() == null) {
+//        if (TenantContextHolder.getTenant() == null) {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             Authentication authentication = securityContext.getAuthentication();
             String email = null;
@@ -77,8 +87,15 @@ public class DataSourceBasedMultiTenantConnectionProviderImpl extends AbstractDa
                 email = principal.toString();
             }
 
-            TenantContextHolder.setTenantId(shopService.getShopByAccountEmail(email).getShopTenant().getId().toString());
-        }
+            Account account = accountService.getAccount(email);
+            ShopUser shopUser = shopUserService.getShopUser(email);
+
+            if (account == null) {
+                TenantContextHolder.setTenantId(shopUser.getShop().getShopTenant().getId().toString());
+            } else {
+                TenantContextHolder.setTenantId(shopService.getShopByAccountEmail(email).getShopTenant().getId().toString());
+            }
+//        }
 
         if (!tenantId.equals(TenantContextHolder.getTenant())) {
             tenantId = TenantContextHolder.getTenant();

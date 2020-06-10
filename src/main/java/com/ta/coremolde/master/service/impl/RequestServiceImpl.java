@@ -6,12 +6,16 @@ import com.ta.coremolde.master.model.entity.*;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.request.RequestRequest;
 import com.ta.coremolde.master.model.response.ErrorResponse;
+import com.ta.coremolde.master.model.response.RequestResponse;
 import com.ta.coremolde.master.repository.RequestRepository;
 import com.ta.coremolde.master.service.*;
+import com.ta.coremolde.util.ResponseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -32,6 +36,11 @@ public class RequestServiceImpl implements RequestService {
     private ShopService shopService;
 
     private Logger LOG = LoggerFactory.getLogger(RequestServiceImpl.class);
+
+    @Override
+    public List<RequestResponse> getAllRequest(Integer id) {
+        return ResponseMapper.mapAsList(requestRepository.findAllByStatusEquals(id), RequestResponse.class);
+    }
 
     @Override
     public String changeRequestStatus(Integer id, StatusConstant condition) {

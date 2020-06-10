@@ -1,4 +1,4 @@
-package com.ta.coremolde.shop.model;
+package com.ta.coremolde.master.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "product", schema = "public")
-public class Product {
+@Table(schema = "public", name = "bank")
+public class Bank {
 
     @Id
     @Column(name = "id")
@@ -22,20 +22,5 @@ public class Product {
 
     @Column(name = "name")
     private String name;
-
-    @Column
-    private String description;
-
-    @Column
-    private long price;
-
-    @Column
-    private float weight;
-
-    @Column
-    private float rating;
-
-    @Column
-    private int stock;
 
 }

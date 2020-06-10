@@ -1,6 +1,6 @@
 package com.ta.coremolde.shop.config;
 
-import com.ta.coremolde.shop.model.Product;
+import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.repository.ProductRepository;
 import com.ta.coremolde.shop.service.ProductService;
 import org.hibernate.MultiTenancyStrategy;
@@ -53,7 +53,7 @@ public class ShopDatabaseConfig {
                 tenantResolver);
         properties.put(Environment.DIALECT,
                 "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put(Environment.SHOW_SQL, true);
+        properties.put(Environment.SHOW_SQL, false);
         properties.put(Environment.FORMAT_SQL, true);
         properties.put(Environment.HBM2DDL_AUTO, "update");
 
