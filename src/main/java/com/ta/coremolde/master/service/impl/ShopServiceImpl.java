@@ -31,7 +31,6 @@ public class ShopServiceImpl implements ShopService {
         return shopRepository.findShopByAccount_Email(email);
     }
 
-
     @Override
     @Transactional("masterTransactionManager")
     public Shop createShop(String name, Account account, Customization customization) {
@@ -47,6 +46,8 @@ public class ShopServiceImpl implements ShopService {
                 .account(account)
                 .shopTenant(shopTenant)
                 .customization(customization)
+                .provinceId("0")
+                .cityId("0")
                 .build());
     }
 

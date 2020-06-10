@@ -11,5 +11,6 @@ public interface CartItemService {
     CartItem createItem(Cart cart, Integer productId, int qty);
     CartItem updateItem(Integer cartItemId, int qty);
     String deleteItem(Integer cartItemId);
+    void removeAllItem(Integer cartId);
 
 }

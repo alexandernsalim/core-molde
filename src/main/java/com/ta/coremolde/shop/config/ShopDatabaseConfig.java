@@ -53,7 +53,7 @@ public class ShopDatabaseConfig {
                 tenantResolver);
         properties.put(Environment.DIALECT,
                 "org.hibernate.dialect.PostgreSQLDialect");
-        properties.put(Environment.SHOW_SQL, true);
+        properties.put(Environment.SHOW_SQL, false);
         properties.put(Environment.FORMAT_SQL, true);
         properties.put(Environment.HBM2DDL_AUTO, "update");
 

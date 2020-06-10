@@ -4,6 +4,7 @@ public class PathConstant {
     //Common
     public static final String PREFIX = "/molde/api/v1/";
 
+    //molde/api/v1/account
     //Account
     public static final String ACCOUNT_MAPPING = PREFIX + "account";
     public static final String REGISTER_ADMIN = "/admin/register";

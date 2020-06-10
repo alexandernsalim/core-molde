@@ -19,4 +19,5 @@ public class ResponseMapper {
         return mapper.mapAsList(source, referenceClass);
     }
 
+
 }

@@ -10,6 +10,7 @@ import com.ta.coremolde.shop.service.CartItemService;
 import com.ta.coremolde.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -88,6 +89,12 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemRepository.deleteById(cartItemId);
 
         return "Item removed successfully";
+    }
+
+    @Override
+    @Transactional("shopTransactionManager")
+    public void removeAllItem(Integer cartId) {
+        cartItemRepository.deleteAllByCart_Id(cartId);
     }
 
     private void checkStock(int qty, Product product) {

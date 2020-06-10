@@ -38,6 +38,12 @@ public class Shop {
     @Column(name = "postal_code")
     private String postalCode;
 
+    @Column(name = "province_id")
+    private String provinceId;
+
+    @Column(name = "city_id")
+    private String cityId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;

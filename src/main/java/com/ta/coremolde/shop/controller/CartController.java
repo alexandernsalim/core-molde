@@ -2,8 +2,10 @@ package com.ta.coremolde.shop.controller;
 
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.response.Response;
+import com.ta.coremolde.shop.model.request.OrderRequest;
 import com.ta.coremolde.shop.model.response.CartItemResponse;
 import com.ta.coremolde.shop.model.response.CartResponse;
+import com.ta.coremolde.shop.model.response.OrderResponse;
 import com.ta.coremolde.shop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,13 @@ public class CartController extends GlobalController {
     public Response<String> removeItemFromCart(@PathVariable Integer cartItemId) {
         //TODO Secure from other user
         return toResponse(cartService.removeFromCart(cartItemId));
+    }
+
+    @PostMapping("/checkout")
+    public Response<OrderResponse> checkout(@ModelAttribute OrderRequest orderRequest, HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(cartService.checkout(email, orderRequest));
     }
 
 }
