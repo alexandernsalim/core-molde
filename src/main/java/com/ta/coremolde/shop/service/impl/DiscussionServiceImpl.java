@@ -98,7 +98,7 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionDetailResponse getDiscussion(Integer discussionId) {
-        Discussion discussion = discussionRepository.findDiscussionById(discussionId);
+        Discussion discussion = discussionRepository.findDiscussionByIdEquals(discussionId);
         String owner = shopUserService.getShopUserById(discussion.getShopUserId()).getFirstName();
         List<DiscussionResponseServiceResponse> responses = discussionResponseService.getDiscussionReplies(discussionId);
 
@@ -129,7 +129,7 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Override
     public DiscussionResponseServiceResponse replyDiscussion(Integer discussionId, DiscussionRequest request, String email) {
-        Discussion discussion = discussionRepository.findDiscussionById(discussionId);
+        Discussion discussion = discussionRepository.findDiscussionByIdEquals(discussionId);
         String message = request.getDetail();
 
         return discussionResponseService.createReply(discussion, message, email);

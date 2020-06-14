@@ -41,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/molde/api/v1/account/client/register").permitAll()
             .antMatchers("/molde/api/v1/shopuser/register").permitAll()
             .antMatchers("/molde/api/v1/storage/**").permitAll()
+            .antMatchers("/molde/ws/**").permitAll()
             .anyRequest().authenticated();
     }
 

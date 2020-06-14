@@ -11,6 +11,6 @@ public interface DiscussionRepository extends JpaRepository<Discussion, Integer>
 
     List<Discussion> findAllByShopUserIdEquals(Integer shopUserId);
 
-    Discussion findDiscussionById(Integer discussionId);
+    Discussion findDiscussionByIdEquals(Integer discussionId);
 
 }
