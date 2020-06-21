@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -41,7 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/molde/api/v1/account/client/register").permitAll()
             .antMatchers("/molde/api/v1/shopuser/register").permitAll()
             .antMatchers("/molde/api/v1/storage/**").permitAll()
-            .antMatchers("/molde/ws/**").permitAll()
+            // Uncomment line below to use swagger, after done comment again
+            // access swagger at http://localhost:9000/swagger-ui.html
+            // .antMatchers("/**").permitAll()
             .anyRequest().authenticated();
     }
 
