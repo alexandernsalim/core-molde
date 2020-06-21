@@ -18,6 +18,10 @@ public interface DiscussionService {
 
     DiscussionDetailResponse getDiscussion(Integer discussionId);
 
+    String subscribe(String registrationToken);
+
+    String unsubscribe(String registrationToken);
+
     Discussion createDiscussion(DiscussionRequest request, Integer productId, String email);
 
     String removeDiscussion(Integer discussionId);

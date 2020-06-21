@@ -9,6 +9,7 @@ import com.ta.coremolde.shop.model.entity.DiscussionResponse;
 import com.ta.coremolde.shop.model.response.DiscussionResponseServiceResponse;
 import com.ta.coremolde.shop.repository.DiscussionResponseRepository;
 import com.ta.coremolde.shop.service.DiscussionResponseService;
+import com.ta.coremolde.shop.service.PushNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class DiscussionResponseServiceImpl implements DiscussionResponseService 
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private PushNotificationService pushNotificationService;
+
     @Override
     public DiscussionResponseServiceResponse getLastReply(Integer discussionId) {
         DiscussionResponse discussionResponse = discussionResponseRepository.findTopByDiscussion_IdOrderByIdDesc(discussionId);
@@ -40,22 +44,23 @@ public class DiscussionResponseServiceImpl implements DiscussionResponseService 
     public DiscussionResponseServiceResponse createReply(Discussion discussion, String message, String email) {
         Shop shop = shopService.getShopByAccountEmail(email);
         ShopUser shopUser = shopUserService.getShopUser(email);
-
         DiscussionResponse discussionResponse = DiscussionResponse.builder()
                 .message(message)
                 .discussion(discussion)
                 .shopId(shop == null ? null : shop.getId())
                 .shopUserId(shopUser == null ? null : shopUser.getId())
                 .build();
-
         discussionResponseRepository.save(discussionResponse);
 
-        return DiscussionResponseServiceResponse.builder()
-                .id(discussionResponse.getId())
+        DiscussionResponseServiceResponse response = DiscussionResponseServiceResponse.builder()
+                .id(discussion.getId())
                 .message(discussionResponse.getMessage())
-                .shopReplyUsername(shop == null ? null : shop.getName())
-                .shopUserReplyUsername(shopUser == null ? null : shopUser.getFirstName())
+                .shopReplyUsername(shop == null ? "" : shop.getName())
+                .shopUserReplyUsername(shopUser == null ? "" : shopUser.getFirstName())
                 .build();
+        pushNotificationService.pushDiscussionReplyNotification(response);
+
+        return response;
     }
 
     @Override

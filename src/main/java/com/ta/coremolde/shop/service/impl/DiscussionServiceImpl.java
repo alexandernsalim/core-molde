@@ -12,6 +12,7 @@ import com.ta.coremolde.shop.repository.DiscussionRepository;
 import com.ta.coremolde.shop.service.DiscussionResponseService;
 import com.ta.coremolde.shop.service.DiscussionService;
 import com.ta.coremolde.shop.service.ProductService;
+import com.ta.coremolde.shop.service.PushNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,9 @@ public class DiscussionServiceImpl implements DiscussionService {
 
     @Autowired
     private ShopUserService shopUserService;
+
+    @Autowired
+    private PushNotificationService pushNotificationService;
 
     @Override
     public List<DiscussionServiceResponse> getAllDiscussions() {
@@ -108,6 +112,16 @@ public class DiscussionServiceImpl implements DiscussionService {
                 .questionOwner(owner)
                 .responses(responses)
                 .build();
+    }
+
+    @Override
+    public String subscribe(String registrationToken) {
+        return pushNotificationService.subscribeToTopic(registrationToken);
+    }
+
+    @Override
+    public String unsubscribe(String registrationToken) {
+        return pushNotificationService.unsubscribeToTopic(registrationToken);
     }
 
     @Override

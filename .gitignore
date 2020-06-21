@@ -12,3 +12,4 @@ target/
 *.ipr
 
 src/main/upload
+src/main/resources/google
