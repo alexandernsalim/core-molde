@@ -11,5 +11,5 @@ target/
 *.iml
 *.ipr
 
-src/main/upload/images/
-src/main/upload/payments/
+src/main/upload
+src/main/resources/google

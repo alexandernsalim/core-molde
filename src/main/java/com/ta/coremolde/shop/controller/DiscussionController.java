@@ -31,6 +31,16 @@ public class DiscussionController extends GlobalController {
         return toResponse(discussionService.getDiscussion(discussionId));
     }
 
+    @PostMapping("/subscribe")
+    public Response<String> subscribe(@RequestParam("token") String token) {
+        return toResponse(discussionService.subscribe(token));
+    }
+
+    @PostMapping("/unsubscribe")
+    public Response<String> unsubscribe(@RequestParam("token") String token) {
+        return toResponse(discussionService.unsubscribe(token));
+    }
+
     @PostMapping("/{productId}")
     public Response<DiscussionServiceResponse> createDiscussion(@PathVariable Integer productId, @ModelAttribute DiscussionRequest request, HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();
