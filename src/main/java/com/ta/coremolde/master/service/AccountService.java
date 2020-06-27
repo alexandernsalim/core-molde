@@ -6,9 +6,9 @@ import com.ta.coremolde.master.model.request.AccountRequest;
 import com.ta.coremolde.master.model.response.AccountResponse;
 
 public interface AccountService {
-
     Account getAccount(String email);
 
     AccountResponse register(AccountRequest accountRequest, String roleName);
 
+    boolean hasShop(String email);
 }
