@@ -2,15 +2,20 @@ package com.ta.coremolde.shop.controller;
 
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.response.Response;
+import com.ta.coremolde.master.service.ExportService;
 import com.ta.coremolde.shop.model.entity.Order;
 import com.ta.coremolde.shop.model.request.AirwayBillRequest;
 import com.ta.coremolde.shop.model.response.OrderResponse;
 import com.ta.coremolde.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @RestController
@@ -19,6 +24,20 @@ public class OrderController extends GlobalController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ExportService exportService;
+
+    @GetMapping("/export")
+    public ResponseEntity<InputStreamResource> export() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "attachment; filename=orders.xlsx");
+        ByteArrayInputStream file = exportService.exportOrder();
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new InputStreamResource(file));
+    }
 
     @GetMapping("/shop/get")
     public Response<List<Order>> getShopOrder() {

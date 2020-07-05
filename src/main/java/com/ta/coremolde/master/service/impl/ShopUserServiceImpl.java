@@ -20,6 +20,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShopUserServiceImpl implements ShopUserService {
 
@@ -39,6 +41,13 @@ public class ShopUserServiceImpl implements ShopUserService {
     @Override
     public ShopUser getShopUser(String email) {
         return shopUserRepository.findShopUserByEmail(email);
+    }
+
+    @Override
+    public List<ShopUserResponse> getShopCustomer(String email) {
+        Shop shop = shopService.getShopByAccountEmail(email);
+
+        return ResponseMapper.mapAsList(shopUserRepository.findAllByShopId(shop.getId()), ShopUserResponse.class);
     }
 
     @Override

@@ -9,6 +9,8 @@ import com.ta.coremolde.master.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(PathConstant.ACCOUNT_MAPPING)
 public class AccountController extends GlobalController {
@@ -24,6 +26,13 @@ public class AccountController extends GlobalController {
     @PostMapping(PathConstant.REGISTER_CLIENT)
     public Response<AccountResponse> registerClient(@ModelAttribute AccountRequest accountRequest) {
         return toResponse(accountService.register(accountRequest, RoleConstant.CLIENT));
+    }
+
+    @GetMapping("/has-shop")
+    public Response<Boolean> hasShop(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(accountService.hasShop(email));
     }
 
 }

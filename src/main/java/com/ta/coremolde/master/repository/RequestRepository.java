@@ -8,6 +8,9 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     Request findRequestById(Integer id);
-    List<Request> findAllByStatusEquals(Integer id);
+
+    List<Request> findAllByStatusEquals(Integer status);
+
+    Request findRequestByAccount_IdAndStatus(Integer accountId, Integer status);
 
 }

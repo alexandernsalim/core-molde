@@ -56,7 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = categoryRepository.findCategoryById(id);
             category.setName(updatedName);
             categoryRepository.save(category);
-            categoryRepository.delete(category);
 
             return ResponseConstant.UPDATE_CATEGORY_SUCCESS;
         } catch (IllegalArgumentException e) {

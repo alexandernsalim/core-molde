@@ -1,8 +1,10 @@
 package com.ta.coremolde.shop.controller;
 
+import com.sun.istack.Nullable;
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.entity.Shop;
 import com.ta.coremolde.master.model.response.Response;
+import com.ta.coremolde.master.service.ExportService;
 import com.ta.coremolde.master.service.ShopService;
 import com.ta.coremolde.shop.model.entity.Product;
 import com.ta.coremolde.shop.model.request.ProductRequest;
@@ -11,10 +13,14 @@ import com.ta.coremolde.shop.model.response.ReviewResponse;
 import com.ta.coremolde.shop.service.DiscussionService;
 import com.ta.coremolde.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @RestController
@@ -30,9 +36,23 @@ public class ProductController extends GlobalController {
     @Autowired
     private ShopService shopService;
 
+    @Autowired
+    private ExportService exportService;
+
     @GetMapping("/all")
     public Response<List<Product>> getAllProduct() {
         return toResponse(productService.getAllProduct());
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<InputStreamResource> exportProduct() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=products.xlsx");
+        ByteArrayInputStream file = exportService.exportProduct();
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(new InputStreamResource(file));
     }
 
     @GetMapping("/{productId}/detail")
@@ -58,7 +78,7 @@ public class ProductController extends GlobalController {
     }
 
     @PutMapping("/{productId}/update")
-    public Response<Product> updateProduct(@PathVariable Integer productId, @ModelAttribute ProductRequest productRequest, @RequestParam MultipartFile image) {
+    public Response<Product> updateProduct(@PathVariable Integer productId, @ModelAttribute ProductRequest productRequest, @RequestParam(required = false) MultipartFile image) {
         return toResponse(productService.updateProduct(productId, productRequest, image));
     }
 

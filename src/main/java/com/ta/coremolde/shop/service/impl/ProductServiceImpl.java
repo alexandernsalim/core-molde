@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
         product.setWeight(productRequest.getWeight());
         product.setStock(productRequest.getStock());
 
-        if (!image.isEmpty()) {
+        if (image != null) {
             storageService.updateImage(getFileName(product.getImage()), image);
         }
 

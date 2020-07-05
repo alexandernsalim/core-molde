@@ -37,6 +37,18 @@ public class ShopUserController extends GlobalController {
         return toResponse(shopUserService.getShopUserInfo(email));
     }
 
+    @GetMapping("/info")
+    public Response<ShopUserResponse> getShopUserByEmail(@RequestParam String email) {
+        return toResponse(shopUserService.getShopUserInfo(email));
+    }
+
+    @GetMapping("/get-by-shop")
+    public Response<List<ShopUserResponse>> getByShop(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(shopUserService.getShopCustomer(email));
+    }
+
     @GetMapping("/reviews")
     public Response<List<ReviewResponse>> getAllUserReviews(HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();

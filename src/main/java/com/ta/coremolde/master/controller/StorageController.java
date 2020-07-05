@@ -21,7 +21,7 @@ public class StorageController {
         return storageService.loadImage(image);
     }
 
-    @GetMapping("payment/{image}")
+    @GetMapping("/payment/{image}")
     public ResponseEntity<InputStreamResource> getPaymentImage(@PathVariable String image) {
         return storageService.loadPaymentImage(image);
     }
