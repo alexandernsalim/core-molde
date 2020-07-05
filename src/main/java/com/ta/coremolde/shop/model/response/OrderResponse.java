@@ -23,4 +23,5 @@ public class OrderResponse {
     private long totalPaymentPrice;
     private String status;
     private Shipment shipment;
+    private String paymentImage;
 }

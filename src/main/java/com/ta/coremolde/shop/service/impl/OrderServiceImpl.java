@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
                     .totalPaymentPrice(order.getTotalPaymentPrice())
                     .status(order.getStatus())
                     .shipment(order.getShipment())
+                    .paymentImage(order.getPaymentImage())
                     .build());
         }
 
@@ -91,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalPaymentPrice(order.getTotalPaymentPrice())
                 .status(order.getStatus())
                 .shipment(order.getShipment())
+                .paymentImage(order.getPaymentImage())
                 .build();
     }
 

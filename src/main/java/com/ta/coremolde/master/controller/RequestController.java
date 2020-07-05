@@ -2,7 +2,6 @@ package com.ta.coremolde.master.controller;
 
 import com.ta.coremolde.master.model.constant.PathConstant;
 import com.ta.coremolde.master.model.constant.StatusConstant;
-import com.ta.coremolde.master.model.entity.Request;
 import com.ta.coremolde.master.model.request.RequestRequest;
 import com.ta.coremolde.master.model.response.RequestResponse;
 import com.ta.coremolde.master.model.response.Response;
@@ -25,6 +24,13 @@ public class RequestController extends GlobalController {
         int reqStatus = (status != null) ? status : 0;
 
         return toResponse(requestService.getAllRequest(reqStatus));
+    }
+
+    @GetMapping("/get/active")
+    public Response<RequestResponse> hasActiveRequest(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(requestService.getActiveRequest(email));
     }
 
     @PostMapping(PathConstant.CREATE_REQUEST)

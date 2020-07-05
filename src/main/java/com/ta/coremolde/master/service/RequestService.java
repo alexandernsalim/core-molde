@@ -18,4 +18,5 @@ public interface RequestService {
 
     String cancelRequest(String email, Integer id);
 
+    RequestResponse getActiveRequest(String email);
 }

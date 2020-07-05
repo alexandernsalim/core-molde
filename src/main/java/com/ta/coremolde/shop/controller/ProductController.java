@@ -1,5 +1,6 @@
 package com.ta.coremolde.shop.controller;
 
+import com.sun.istack.Nullable;
 import com.ta.coremolde.master.controller.GlobalController;
 import com.ta.coremolde.master.model.entity.Shop;
 import com.ta.coremolde.master.model.response.Response;
@@ -77,7 +78,7 @@ public class ProductController extends GlobalController {
     }
 
     @PutMapping("/{productId}/update")
-    public Response<Product> updateProduct(@PathVariable Integer productId, @ModelAttribute ProductRequest productRequest, @RequestParam MultipartFile image) {
+    public Response<Product> updateProduct(@PathVariable Integer productId, @ModelAttribute ProductRequest productRequest, @RequestParam(required = false) MultipartFile image) {
         return toResponse(productService.updateProduct(productId, productRequest, image));
     }
 

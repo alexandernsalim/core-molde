@@ -165,6 +165,13 @@ public class RequestServiceImpl implements RequestService {
         }
     }
 
+    @Override
+    public RequestResponse getActiveRequest(String email) {
+        Account account = accountService.getAccount(email);
+
+        return ResponseMapper.map(requestRepository.findRequestByAccount_IdAndStatus(account.getId(), 0), RequestResponse.class);
+    }
+
     private void checkResourceAccess(Integer ownerId, Integer accountId) {
         if (!ownerId.equals(accountId)) {
             throw new MoldeException(
