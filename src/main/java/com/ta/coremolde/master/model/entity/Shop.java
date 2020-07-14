@@ -44,6 +44,12 @@ public class Shop {
     @Column(name = "city_id")
     private String cityId;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
+    @Column(name = "deactivate_reason")
+    private String deactivateReason;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
