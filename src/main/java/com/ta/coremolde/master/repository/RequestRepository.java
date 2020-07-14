@@ -13,4 +13,8 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     Request findRequestByAccount_IdAndStatus(Integer accountId, Integer status);
 
+    Boolean existsByShopName(String shopName);
+
+    Boolean existsByAppName(String appName);
+
 }

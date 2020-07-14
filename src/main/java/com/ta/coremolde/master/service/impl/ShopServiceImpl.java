@@ -57,6 +57,7 @@ public class ShopServiceImpl implements ShopService {
                 .customization(customization)
                 .provinceId("0")
                 .cityId("0")
+                .isActive(true)
                 .build());
     }
 
@@ -68,7 +69,7 @@ public class ShopServiceImpl implements ShopService {
         shop.setProvinceId(updateShopRequest.getProvinceId());
         shop.setCity(updateShopRequest.getCity());
         shop.setCityId(updateShopRequest.getCityId());
-        shop.setSubDistrict(updateShopRequest.getSubDistrict());
+        shop.setSubDistrict("-");
         shop.setStreet(updateShopRequest.getStreet());
         shop.setPostalCode(updateShopRequest.getPostalCode());
 
@@ -76,16 +77,16 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop activateShop(String email) {
-        Shop shop = shopRepository.findShopByAccount_Email(email);
+    public Shop activateShop(Integer shopId) {
+        Shop shop = shopRepository.findShopById(shopId);
         shop.setIsActive(true);
 
         return shopRepository.save(shop);
     }
 
     @Override
-    public Shop deactivateShop(String email, DeactivateShopRequest deactivateShopRequest) {
-        Shop shop = shopRepository.findShopByAccount_Email(email);
+    public Shop deactivateShop(Integer shopId, DeactivateShopRequest deactivateShopRequest) {
+        Shop shop = shopRepository.findShopById(shopId);
         shop.setIsActive(false);
         shop.setDeactivateReason(deactivateShopRequest.getReason());
 

@@ -2,7 +2,10 @@ package com.ta.coremolde.master.service.impl;
 
 import com.ta.coremolde.master.model.constant.ResponseConstant;
 import com.ta.coremolde.master.model.constant.StatusConstant;
-import com.ta.coremolde.master.model.entity.*;
+import com.ta.coremolde.master.model.entity.Account;
+import com.ta.coremolde.master.model.entity.Category;
+import com.ta.coremolde.master.model.entity.Customization;
+import com.ta.coremolde.master.model.entity.Request;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.request.RequestRequest;
 import com.ta.coremolde.master.model.response.ErrorResponse;
@@ -67,7 +70,20 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public String createRequest(String email, RequestRequest requestRequest) {
-        //TODO Check shopName & appName must be unique
+        if (requestRepository.existsByShopName(requestRequest.getShopName())) {
+            throw new MoldeException(
+                    ErrorResponse.SHOP_NAME_EXISTS.getCode(),
+                    ErrorResponse.SHOP_NAME_EXISTS.getMessage()
+            );
+        }
+
+        if (requestRepository.existsByAppName(requestRequest.getAppName())) {
+            throw new MoldeException(
+                    ErrorResponse.APP_NAME_EXISTS.getCode(),
+                    ErrorResponse.APP_NAME_EXISTS.getMessage()
+            );
+        }
+
         Category category = categoryService.getCategoryById(requestRequest.getCategory());
 
         try {
@@ -105,7 +121,19 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public String updateRequest(String email, Integer id, RequestRequest requestRequest) {
-        //TODO Check shopName & appName must be unique
+        if (requestRepository.existsByShopName(requestRequest.getShopName())) {
+            throw new MoldeException(
+                    ErrorResponse.SHOP_NAME_EXISTS.getCode(),
+                    ErrorResponse.SHOP_NAME_EXISTS.getMessage()
+            );
+        }
+
+        if (requestRepository.existsByAppName(requestRequest.getAppName())) {
+            throw new MoldeException(
+                    ErrorResponse.APP_NAME_EXISTS.getCode(),
+                    ErrorResponse.APP_NAME_EXISTS.getMessage()
+            );
+        }
 
         String appName = requestRequest.getAppName();
         String shopName = requestRequest.getShopName();
@@ -148,8 +176,6 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public String cancelRequest(String email, Integer id) {
-        //TODO Functionality test
-
         try {
             Account account = accountService.getAccount(email);
             Request request = requestRepository.findRequestById(id);

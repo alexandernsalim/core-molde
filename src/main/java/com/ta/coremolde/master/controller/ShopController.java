@@ -38,17 +38,13 @@ public class ShopController extends GlobalController {
     }
 
     @PutMapping("/activate")
-    public Response<Shop> activateShop(HttpServletRequest httpServletRequest) {
-        String email = httpServletRequest.getUserPrincipal().getName();
-
-        return toResponse(shopService.activateShop(email));
+    public Response<Shop> activateShop(@RequestParam("shopId") Integer shopId) {
+        return toResponse(shopService.activateShop(shopId));
     }
 
     @PutMapping("/deactivate")
-    public Response<Shop> deactivateShop(@ModelAttribute DeactivateShopRequest deactivateShopRequest, HttpServletRequest httpServletRequest) {
-        String email = httpServletRequest.getUserPrincipal().getName();
-
-        return toResponse(shopService.deactivateShop(email, deactivateShopRequest));
+    public Response<Shop> deactivateShop(@RequestParam("shopId") Integer shopId, @ModelAttribute DeactivateShopRequest deactivateShopRequest) {
+        return toResponse(shopService.deactivateShop(shopId, deactivateShopRequest));
     }
 
 }

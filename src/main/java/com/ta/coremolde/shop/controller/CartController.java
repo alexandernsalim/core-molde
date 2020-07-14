@@ -35,13 +35,11 @@ public class CartController extends GlobalController {
 
     @PutMapping("{cartItemId}/{qty}/update")
     public Response<CartItemResponse> updateItem(@PathVariable Integer cartItemId, @PathVariable int qty) {
-        //TODO Secure from other user
         return toResponse(cartService.updateItem(cartItemId, qty));
     }
 
     @DeleteMapping("/{cartItemId}/remove")
     public Response<String> removeItemFromCart(@PathVariable Integer cartItemId) {
-        //TODO Secure from other user
         return toResponse(cartService.removeFromCart(cartItemId));
     }
 

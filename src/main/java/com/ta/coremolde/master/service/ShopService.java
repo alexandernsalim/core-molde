@@ -19,7 +19,7 @@ public interface ShopService {
 
     Shop updateShop(String email, UpdateShopRequest updateShopRequest);
 
-    Shop activateShop(String email);
+    Shop activateShop(Integer shopId);
 
-    Shop deactivateShop(String email, DeactivateShopRequest deactivateShopRequest);
+    Shop deactivateShop(Integer shopId, DeactivateShopRequest deactivateShopRequest);
 }

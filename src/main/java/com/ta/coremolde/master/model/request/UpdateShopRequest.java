@@ -14,7 +14,6 @@ public class UpdateShopRequest {
     private String provinceId;
     private String city;
     private String cityId;
-    private String subDistrict;
     private String street;
     private String postalCode;
 }

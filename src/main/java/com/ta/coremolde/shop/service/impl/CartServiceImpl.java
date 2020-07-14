@@ -137,8 +137,6 @@ public class CartServiceImpl implements CartService {
             total += item.getTotalWeight();
         }
 
-        total *= 1000;
-
         return (int) total;
     }
 
