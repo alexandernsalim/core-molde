@@ -3,6 +3,7 @@ package com.ta.coremolde.master.service.impl;
 import com.ta.coremolde.master.model.entity.Account;
 import com.ta.coremolde.master.model.entity.Role;
 import com.ta.coremolde.master.model.entity.ShopUser;
+import com.ta.coremolde.master.model.exception.BlockedShopException;
 import com.ta.coremolde.master.model.exception.DifferentShopException;
 import com.ta.coremolde.master.service.AccountService;
 import com.ta.coremolde.master.service.ShopUserService;
@@ -32,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private ShopUserService shopUserService;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DifferentShopException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DifferentShopException, BlockedShopException {
         String reqShopId = httpServletRequest.getHeader("SHOP_ID");
         Account account = accountService.getAccount(email);
         ShopUser shopUser = shopUserService.getShopUser(email);
@@ -48,6 +49,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             } else {
                 if (!shopId.equals(shopUser.getShop().getId())) {
                     throw new DifferentShopException("User from different shop");
+                }
+                if (!shopUser.getShop().getIsActive()) {
+                    throw new BlockedShopException("Shop is blocked");
                 }
             }
         } else {
