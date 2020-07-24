@@ -23,6 +23,13 @@ public class ShopController extends GlobalController {
         return toResponse(shopService.getShops());
     }
 
+    @GetMapping("/gets")
+    public Response<List<Shop>> getShopsByStatus(@RequestParam(required = false) Boolean status) {
+        boolean shopStatus = (status != null) ? status : false;
+
+        return toResponse(shopService.getShopsByStatus(shopStatus));
+    }
+
     @GetMapping("/get")
     public Response<Shop> getShop(HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();

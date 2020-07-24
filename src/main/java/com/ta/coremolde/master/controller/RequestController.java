@@ -27,10 +27,22 @@ public class RequestController extends GlobalController {
     }
 
     @GetMapping("/get/active")
+    public Response<List<RequestResponse>> getAllActiveRequest() {
+        return toResponse(requestService.getAllActiveRequest());
+    }
+
+    @GetMapping("/active")
     public Response<RequestResponse> hasActiveRequest(HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();
 
         return toResponse(requestService.getActiveRequest(email));
+    }
+
+    @GetMapping("/get/shop")
+    public Response<RequestResponse> getShopRequest(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(requestService.getShopRequest(email));
     }
 
     @PostMapping(PathConstant.CREATE_REQUEST)
@@ -50,6 +62,11 @@ public class RequestController extends GlobalController {
     @PutMapping(PathConstant.ACCEPT_REQUEST)
     public Response<String> acceptRequest(@PathVariable Integer id) {
         return toResponse(requestService.changeRequestStatus(id, StatusConstant.ACCEPT));
+    }
+
+    @PutMapping(PathConstant.COMPLETE_REQUEST)
+    public Response<String> completeRequest(@PathVariable Integer id, @RequestParam("url") String url) {
+        return toResponse(requestService.completeRequest(id, url));
     }
 
     @PutMapping(PathConstant.REJECT_REQUEST)

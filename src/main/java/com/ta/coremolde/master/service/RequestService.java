@@ -10,13 +10,19 @@ public interface RequestService {
 
     List<RequestResponse> getAllRequest(Integer id);
 
+    List<RequestResponse> getAllActiveRequest();
+
+    RequestResponse getActiveRequest(String email);
+
+    RequestResponse getShopRequest(String email);
+
     String changeRequestStatus(Integer id, StatusConstant condition);
 
     String createRequest(String email, RequestRequest requestRequest);
 
     String updateRequest(String email, Integer id, RequestRequest requestRequest);
 
-    String cancelRequest(String email, Integer id);
+    RequestResponse completeRequest(Integer id, String downloadUrl);
 
-    RequestResponse getActiveRequest(String email);
+    String cancelRequest(String email, Integer id);
 }

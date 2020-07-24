@@ -31,6 +31,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public List<Shop> getShopsByStatus(Boolean status) {
+        return shopRepository.findAllByIsActive(status);
+    }
+
+    @Override
     public Shop getShop(Integer id) {
         return shopRepository.findShopById(id);
     }

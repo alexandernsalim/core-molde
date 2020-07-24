@@ -17,4 +17,5 @@ public class RequestResponse {
     private int status;
     private AccountResponse account;
     private Customization customization;
+    private String downloadUrl;
 }

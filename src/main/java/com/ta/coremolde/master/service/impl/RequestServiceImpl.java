@@ -46,6 +46,11 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public List<RequestResponse> getAllActiveRequest() {
+        return ResponseMapper.mapAsList(requestRepository.findAllByStatusIn(0, 1), RequestResponse.class);
+    }
+
+    @Override
     public String changeRequestStatus(Integer id, StatusConstant condition) {
         Request request = requestRepository.findRequestById(id);
 
@@ -175,6 +180,15 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public RequestResponse completeRequest(Integer id, String downloadUrl) {
+        Request request = requestRepository.findRequestById(id);
+        request.setStatus(StatusConstant.COMPLETE.getValue());
+        request.setDownloadUrl(downloadUrl);
+
+        return ResponseMapper.map(requestRepository.save(request), RequestResponse.class);
+    }
+
+    @Override
     public String cancelRequest(String email, Integer id) {
         try {
             Account account = accountService.getAccount(email);
@@ -196,6 +210,11 @@ public class RequestServiceImpl implements RequestService {
         Account account = accountService.getAccount(email);
 
         return ResponseMapper.map(requestRepository.findRequestByAccount_IdAndStatus(account.getId(), 0), RequestResponse.class);
+    }
+
+    @Override
+    public RequestResponse getShopRequest(String email) {
+        return ResponseMapper.map(requestRepository.findRequestByAccount_Email(email), RequestResponse.class);
     }
 
     private void checkResourceAccess(Integer ownerId, Integer accountId) {

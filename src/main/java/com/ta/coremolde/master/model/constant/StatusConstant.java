@@ -3,7 +3,8 @@ package com.ta.coremolde.master.model.constant;
 public enum StatusConstant {
     WAITING(0),
     ACCEPT(1),
-    REJECT(2);
+    COMPLETE(2),
+    REJECT(3);
 
     private int value;
 

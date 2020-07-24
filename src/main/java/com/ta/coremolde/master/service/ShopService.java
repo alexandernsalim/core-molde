@@ -11,6 +11,8 @@ import java.util.List;
 public interface ShopService {
     List<Shop> getShops();
 
+    List<Shop> getShopsByStatus(Boolean status);
+
     Shop getShop(Integer id);
 
     Shop getShopByAccountEmail(String email);
