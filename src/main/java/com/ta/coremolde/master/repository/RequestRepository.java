@@ -11,6 +11,14 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllByStatusEquals(Integer status);
 
+    List<Request> findAllByStatusIn(Integer... status);
+
     Request findRequestByAccount_IdAndStatus(Integer accountId, Integer status);
+
+    Request findRequestByAccount_Email(String email);
+
+    Boolean existsByShopName(String shopName);
+
+    Boolean existsByAppName(String appName);
 
 }

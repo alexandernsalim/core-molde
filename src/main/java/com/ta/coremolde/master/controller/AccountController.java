@@ -3,9 +3,12 @@ package com.ta.coremolde.master.controller;
 import com.ta.coremolde.master.model.constant.PathConstant;
 import com.ta.coremolde.master.model.constant.RoleConstant;
 import com.ta.coremolde.master.model.request.AccountRequest;
+import com.ta.coremolde.master.model.request.ChangePasswordRequest;
+import com.ta.coremolde.master.model.request.UpdateAccountRequest;
 import com.ta.coremolde.master.model.response.AccountResponse;
 import com.ta.coremolde.master.model.response.Response;
 import com.ta.coremolde.master.service.AccountService;
+import com.ta.coremolde.util.ResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,27 @@ public class AccountController extends GlobalController {
         String email = httpServletRequest.getUserPrincipal().getName();
 
         return toResponse(accountService.hasShop(email));
+    }
+
+    @GetMapping("/get")
+    public Response<AccountResponse> getAccount(HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(ResponseMapper.map(accountService.getAccount(email), AccountResponse.class));
+    }
+
+    @PutMapping("/update")
+    public Response<AccountResponse> updateAccount(@ModelAttribute UpdateAccountRequest updateAccountRequest, HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(accountService.updateAccount(email, updateAccountRequest));
+    }
+
+    @PutMapping("/change-password")
+    public Response<String> changePassword(@ModelAttribute ChangePasswordRequest changePasswordRequest, HttpServletRequest httpServletRequest) {
+        String email = httpServletRequest.getUserPrincipal().getName();
+
+        return toResponse(accountService.changePassword(email, changePasswordRequest));
     }
 
 }

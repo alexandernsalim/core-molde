@@ -5,6 +5,8 @@ import com.ta.coremolde.master.model.entity.Role;
 import com.ta.coremolde.master.model.entity.Shop;
 import com.ta.coremolde.master.model.exception.MoldeException;
 import com.ta.coremolde.master.model.request.AccountRequest;
+import com.ta.coremolde.master.model.request.ChangePasswordRequest;
+import com.ta.coremolde.master.model.request.UpdateAccountRequest;
 import com.ta.coremolde.master.model.response.AccountResponse;
 import com.ta.coremolde.master.model.response.ErrorResponse;
 import com.ta.coremolde.master.repository.AccountRepository;
@@ -56,6 +58,33 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         return ResponseMapper.map(accountRepository.save(account), AccountResponse.class);
+    }
+
+    @Override
+    public AccountResponse updateAccount(String email, UpdateAccountRequest updateAccountRequest) {
+        Account account = accountRepository.findAccountByEmail(email);
+        account.setEmail(updateAccountRequest.getEmail());
+        account.setFirstName(updateAccountRequest.getFirstName());
+        account.setLastName(updateAccountRequest.getLastName());
+        account.setPhoneNo(updateAccountRequest.getPhoneNo());
+
+        return ResponseMapper.map(accountRepository.save(account), AccountResponse.class);
+    }
+
+    @Override
+    public String changePassword(String email, ChangePasswordRequest changePasswordRequest) {
+        Account account = accountRepository.findAccountByEmail(email);
+        if (encoder.matches(changePasswordRequest.getOldPassword(), account.getPassword())) {
+            account.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
+            accountRepository.save(account);
+
+            return "Password changed";
+        } else {
+            throw new MoldeException(
+                    ErrorResponse.PASSWORD_NOT_MATCH.getCode(),
+                    ErrorResponse.PASSWORD_NOT_MATCH.getMessage()
+            );
+        }
     }
 
     @Override

@@ -26,6 +26,7 @@ public class PathConstant {
     public static final String UPDATE_REQUEST = "/{id}/update";
     public static final String CANCEL_REQUEST = "/{id}/cancel";
     public static final String ACCEPT_REQUEST = "/{id}/accept";
+    public static final String COMPLETE_REQUEST = "/{id}/complete";
     public static final String REJECT_REQUEST = "/{id}/reject";
 
     //Shop User

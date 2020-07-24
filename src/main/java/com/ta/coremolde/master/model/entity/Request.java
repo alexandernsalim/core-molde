@@ -37,4 +37,7 @@ public class Request {
     @JoinColumn(name = "customization_id", referencedColumnName = "id")
     private Customization customization;
 
+    @Column(name = "download_url")
+    private String downloadUrl;
+
 }

@@ -94,11 +94,7 @@ public class JwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         try {
-            response.getWriter().write("{" +
-                    "\"code\":\"" + 401 + "\"," +
-                    "\"message\":\"Unauthorized\"," +
-                    "\"data\": {}" +
-                    "}");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         } catch (IOException e) {
             e.printStackTrace();
         }

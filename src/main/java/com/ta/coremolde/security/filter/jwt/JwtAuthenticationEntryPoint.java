@@ -17,6 +17,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         if (expired != null) {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expired");
         } else {
+            if(e.getMessage().equals("Shop is blocked")) {
+                httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Shop is blocked");
+            }
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized token");
         }
     }

@@ -5,8 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 
 public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentifierResolver {
-
-    //TODO Set default tenant id
     private static final String DEFAULT_TENANT_ID = "1";
 
     @Override
@@ -19,5 +17,4 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
     public boolean validateExistingCurrentSessions() {
         return true;
     }
-
 }

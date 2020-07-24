@@ -31,19 +31,19 @@ public class BankAccountController extends GlobalController {
     }
 
     @PostMapping("{bankId}/add")
-    public Response<Bank> addNewBank(@PathVariable Integer bankId, @ModelAttribute BankAccountRequest request, HttpServletRequest httpServletRequest) {
+    public Response<Bank> addNewBankAccount(@PathVariable Integer bankId, @ModelAttribute BankAccountRequest request, HttpServletRequest httpServletRequest) {
         String email = httpServletRequest.getUserPrincipal().getName();
 
         return toResponse(bankAccountService.addBankAccount(email, bankId, request));
     }
 
     @PutMapping("{bankAccountId}/edit")
-    public Response<Bank> editBank(@PathVariable Integer bankAccountId, @ModelAttribute BankAccountRequest request) {
+    public Response<Bank> editBankAccount(@PathVariable Integer bankAccountId, @ModelAttribute BankAccountRequest request) {
         return toResponse(bankAccountService.editBankAccount(bankAccountId, request));
     }
 
     @DeleteMapping("{bankAccountId}/remove")
-    public Response<String> removeBank(@PathVariable Integer bankAccountId) {
+    public Response<String> removeBankAccount(@PathVariable Integer bankAccountId) {
         return toResponse(bankAccountService.removeBankAccount(bankAccountId));
     }
 
